@@ -4,6 +4,7 @@ import Reveal from "@/components/Reveal";
 import SkillScroller from "@/components/SkillScroller";
 import ProjectCardThumb from "@/components/ProjectCardThumb";
 import Footer from "@/components/Footer";
+import CountUp from "@/components/CountUp";
 import { MailIcon, PhoneIcon, ArrowIcon } from "@/components/icons";
 import {
   getProfile,
@@ -111,7 +112,7 @@ export default async function Home() {
                   {stats.map((s) => (
                     <div key={s.label} className="glass relative overflow-hidden rounded-xl p-5">
                       <p className="font-[family-name:var(--font-display)] text-3xl font-bold text-accent">
-                        {s.value}
+                        <CountUp value={s.value} />
                       </p>
                       <p className="mt-1 text-xs text-muted">{s.label}</p>
                     </div>
