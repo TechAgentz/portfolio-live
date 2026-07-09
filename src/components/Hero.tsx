@@ -115,8 +115,20 @@ export default function Hero({ profile }: { profile: ProfileData }) {
           <p className="mono mb-1 text-sm tracking-wide text-white/85">
             ©{year}
           </p>
-          <h1 className="font-[family-name:var(--font-display)] text-[clamp(3.25rem,16vw,13rem)] font-bold uppercase leading-[0.8] tracking-tighter">
-            Shahin
+          <h1
+            aria-label="Shahin"
+            className="font-[family-name:var(--font-display)] text-[clamp(3.25rem,16vw,13rem)] font-bold uppercase leading-[0.8] tracking-tighter"
+          >
+            {"Shahin".split("").map((ch, i) => (
+              <span
+                key={i}
+                aria-hidden="true"
+                className="nav-letter"
+                style={{ animationDelay: `${300 + i * 90}ms` }}
+              >
+                {ch}
+              </span>
+            ))}
           </h1>
         </div>
 
