@@ -123,7 +123,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
         {/* Let's Talk card — floats bottom-right on desktop */}
         <a
           href="#contact"
-          className="group relative mt-8 flex w-full max-w-xs items-center gap-3 rounded-xl bg-[#0a0a0b] p-3.5 text-white shadow-2xl transition-transform hover:-translate-y-1 sm:w-72 lg:absolute lg:bottom-10 lg:right-6 lg:mt-0"
+          className="group relative mt-8 hidden w-full max-w-xs items-center gap-3 rounded-xl bg-[#0a0a0b] p-3.5 text-white shadow-2xl transition-transform hover:-translate-y-1 sm:flex sm:w-72 lg:absolute lg:bottom-10 lg:right-6 lg:mt-0"
         >
             <Sparkle className="absolute right-3 top-3 text-white/40" />
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#16a34a] to-[#166534] font-[family-name:var(--font-display)] text-sm font-bold">
