@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+export const revalidate = 3600;
+
 export default async function ResumePage() {
   const [profile, competenciesRaw, certifications, experienceRaw, education, resumeSummary] =
     await Promise.all([

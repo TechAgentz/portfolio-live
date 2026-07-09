@@ -50,6 +50,9 @@ function SectionHead({
   );
 }
 
+// ISR: serve prerendered HTML, refresh hourly + on-demand when admin edits.
+export const revalidate = 3600;
+
 export default async function Home() {
   const [profile, marqueeSkillsRaw, certifications, projects, servicesRaw, stats, competenciesRaw] =
     await Promise.all([

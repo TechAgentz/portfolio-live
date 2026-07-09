@@ -11,6 +11,8 @@ export const metadata: Metadata = {
     "Selected projects by Mohamed Shahin M — Dynamics 365, Power Platform, and full-stack web & mobile.",
 };
 
+export const revalidate = 3600;
+
 export default async function WorkPage() {
   const rawProjects = await getProjects();
   const projects = rawProjects.map((p) => ({ ...p, tags: p.tags.map((t) => t.name) }));

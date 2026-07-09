@@ -14,7 +14,10 @@ async function requireAuth() {
 }
 
 function revalidate() {
+  // Regenerate the ISR-cached public pages so edits appear immediately.
   revalidatePath("/");
+  revalidatePath("/work");
+  revalidatePath("/resume");
   revalidatePath("/shahindevelopernkv");
 }
 
