@@ -29,6 +29,12 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Fallback: if IntersectionObserver is unavailable, reveal immediately
+    // so content is never left invisible.
+    if (typeof IntersectionObserver === "undefined") {
+      el.classList.add("is-visible");
+      return;
+    }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

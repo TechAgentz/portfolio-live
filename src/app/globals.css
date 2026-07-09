@@ -436,11 +436,11 @@ body {
   animation-play-state: paused;
 }
 
+/* Scroll-reveal, skill-card and stagger animations intentionally play for
+   all visitors regardless of the reduced-motion preference (site owner's
+   choice). Only instant-scroll is honored for reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .skill-card { opacity: 1; transform: none; animation: none; }
-  .stagger-children > * { opacity: 1; transform: none; animation: none; }
 }
 
 /* ------------------------------------------------------------------
