@@ -23,7 +23,7 @@ export default function Projects() {
   }, [active]);
 
   return (
-    <section id="work" className="relative scroll-mt-24 bg-surface py-24 sm:py-28">
+    <section id="work" className="relative scroll-mt-24 bg-surface py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading

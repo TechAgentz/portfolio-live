@@ -13,7 +13,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28"
+      className="relative overflow-hidden pt-32 pb-14 sm:pt-40 sm:pb-20"
     >
       {/* Decorative background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">

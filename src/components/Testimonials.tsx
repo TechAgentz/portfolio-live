@@ -26,7 +26,7 @@ export default function Testimonials() {
   const t = testimonials[index];
 
   return (
-    <section className="relative scroll-mt-24 overflow-hidden bg-surface py-24 sm:py-28">
+    <section className="relative scroll-mt-24 overflow-hidden bg-surface py-14 sm:py-20">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="blob left-[10%] top-[10%] h-72 w-72 bg-accent-bright/20" />
         <div className="blob right-[8%] bottom-[6%] h-80 w-80 bg-indigo-300/20" />

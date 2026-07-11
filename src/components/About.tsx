@@ -8,7 +8,7 @@ import SectionHeading from "./SectionHeading";
 
 export default function About() {
   return (
-    <section id="about" className="relative scroll-mt-24 py-24 sm:py-28">
+    <section id="about" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           kicker="Who we are"

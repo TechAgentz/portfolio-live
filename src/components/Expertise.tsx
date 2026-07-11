@@ -11,7 +11,7 @@ export default function Expertise() {
   return (
     <section
       id="expertise"
-      className="relative scroll-mt-24 py-24 sm:py-28"
+      className="relative scroll-mt-24 py-14 sm:py-20"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading

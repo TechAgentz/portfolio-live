@@ -21,7 +21,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative scroll-mt-24 py-24 sm:py-28">
+    <section id="contact" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="overflow-hidden rounded-[2rem] border border-border bg-gradient-to-br from-slate-950 to-slate-900 shadow-xl">
           <div className="grid gap-0 lg:grid-cols-[1fr_1.1fr]">
