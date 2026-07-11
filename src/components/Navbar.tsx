@@ -1,174 +1,117 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { site } from "@/data/site";
+import { Icon } from "./Icons";
 
 const links = [
-  { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
-  { href: "#skills", label: "Skills" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About" },
+  { href: "/#team", label: "Team" },
+  { href: "/#expertise", label: "Expertise" },
+  { href: "/#work", label: "Work" },
+  { href: "/#process", label: "Process" },
+  { href: "/#blog", label: "Insights" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("#about");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const sections = links
-      .map((l) => document.querySelector(l.href))
-      .filter(Boolean) as Element[];
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(`#${e.target.id}`);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
-  }, []);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 py-3 sm:px-6">
-      <nav
-        className={`mx-auto flex max-w-6xl items-center justify-between rounded-full px-4 py-2.5 transition-all duration-500 sm:px-5 ${
+    <motion.header
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 top-0 z-50"
+    >
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between px-5 transition-all duration-300 sm:px-8 ${
           scrolled
-            ? "border border-white/50 bg-white/40 shadow-lg shadow-black/[0.03] backdrop-blur-xl"
-            : "border border-transparent"
+            ? "my-2.5 rounded-2xl border border-border bg-white/80 py-2.5 shadow-[0_10px_40px_-20px_rgba(15,23,42,0.25)] backdrop-blur-xl"
+            : "my-4 py-3"
         }`}
       >
-        <a
-          href="#top"
-          aria-label="Mohamed Shahin"
-          className={`font-[family-name:var(--font-display)] text-base font-bold tracking-tight ${
-            scrolled ? "text-foreground" : "text-white"
-          }`}
-        >
-          {"Mohamed Shahin".split("").map((ch, i) => (
-            <span
-              key={i}
-              aria-hidden="true"
-              className="nav-letter"
-              style={{ animationDelay: `${i * 55}ms` }}
-            >
-              {ch}
-            </span>
-          ))}
-          <span
-            aria-hidden="true"
-            className="nav-letter text-accent"
-            style={{ animationDelay: `${"Mohamed Shahin".length * 55}ms` }}
-          >
-            .
+        <Link href="/#top" className="group flex items-center gap-2.5">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.8)] transition-transform duration-300 group-hover:scale-105">
+            {site.brandMark}
           </span>
-        </a>
+          <span className="font-display text-lg font-bold tracking-tight">
+            {site.name}
+          </span>
+        </Link>
 
-        <ul className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className={`mono rounded-full px-3.5 py-1.5 text-xs uppercase tracking-wider transition-colors ${
-                  active === l.href
-                    ? scrolled
-                      ? "text-accent"
-                      : "text-white"
-                    : scrolled
-                      ? "text-muted hover:text-foreground"
-                      : "text-white/70 hover:text-white"
-                }`}
-              >
-                {l.label}
-              </a>
-            </li>
+            <Link
+              key={l.href}
+              href={l.href}
+              className="relative rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground"
+            >
+              {l.label}
+            </Link>
           ))}
-        </ul>
+        </nav>
 
-        <div className="hidden items-center gap-2 md:flex">
-          <a
-            href="/resume"
-            className={`mono rounded-full px-3 py-1.5 text-xs uppercase tracking-wider transition-colors ${
-              scrolled
-                ? "text-muted hover:text-foreground"
-                : "text-white/70 hover:text-white"
-            }`}
-          >
-            Résumé
-          </a>
-          <a
-            href="#contact"
-            className={
-              scrolled
-                ? "btn-accent px-4 py-2 text-sm"
-                : "rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
-            }
-          >
-            Hire me
-          </a>
+        <div className="hidden items-center gap-3 lg:flex">
+          <Link href="/#contact" className="btn btn-accent text-sm">
+            Let&apos;s Talk
+          </Link>
         </div>
 
         <button
+          aria-label="Open menu"
           onClick={() => setOpen((v) => !v)}
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          className={`flex h-9 w-9 items-center justify-center rounded-full border md:hidden ${
-            scrolled
-              ? "border-white/40 text-foreground"
-              : "border-white/30 text-white"
-          }`}
+          className="grid h-10 w-10 place-items-center rounded-xl border border-border bg-white text-foreground lg:hidden"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {open ? (
-              <>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </>
-            ) : (
-              <>
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </>
-            )}
-          </svg>
+          {open ? <Icon.close width={20} /> : <Icon.menu width={20} />}
         </button>
-      </nav>
+      </div>
 
-      {open && (
-        <div className="mx-auto mt-2 max-w-6xl md:hidden">
-          <ul className="flex flex-col gap-1 rounded-2xl border border-white/50 bg-white/50 p-3 shadow-xl backdrop-blur-2xl">
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="mx-3 mt-1 overflow-hidden rounded-2xl border border-border bg-white/95 p-3 shadow-xl backdrop-blur-xl lg:hidden"
+          >
             {links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="mono block rounded-xl px-4 py-3 text-xs uppercase tracking-wider text-muted hover:bg-white/50 hover:text-foreground"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-            <li>
-              <a
-                href="/resume"
+              <Link
+                key={l.href}
+                href={l.href}
                 onClick={() => setOpen(false)}
-                className="mono block rounded-xl px-4 py-3 text-xs uppercase tracking-wider text-accent hover:bg-white/50"
+                className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-accent-soft hover:text-accent"
               >
-                Résumé
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
-    </header>
+                {l.label}
+              </Link>
+            ))}
+            <Link
+              href="/#contact"
+              onClick={() => setOpen(false)}
+              className="btn btn-accent mt-2 w-full"
+            >
+              Let&apos;s Talk
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -1,37 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TechAgents — Team Portfolio
+
+A modern, premium, corporate-friendly portfolio for a team of developers. Light
+theme with professional blue accents, smooth Framer Motion animations, and a
+clean, mobile-first, SEO-optimized build.
+
+## Tech Stack
+
+- **Next.js 16** (App Router) + **TypeScript**
+- **Tailwind CSS v4** (design tokens in `src/app/globals.css`)
+- **Framer Motion** for scroll reveals, micro-interactions, modals & carousel
+- Static, typed content — no database required
+
+## Sections
+
+Hero · About the Team (animated counters) · Meet the Team · Our Expertise
+(animated skill bars) · Featured Projects (detail modal) · Our Process
+(scroll-drawn timeline) · Testimonials (carousel) · Insights / Blog
+(cards → detail pages) · Contact (animated form + success state).
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm start       # serve the production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Editing content
 
-## Learn More
+All content lives in typed data files under `src/data/`:
 
-To learn more about Next.js, take a look at the following resources:
+| File | Controls |
+| --- | --- |
+| `site.ts` | Brand, headline, contact details, stats, values |
+| `team.ts` | Team members (photo, role, bio, skills) |
+| `expertise.ts` | Skill groups + bar levels, tech marquee |
+| `projects.ts` | Featured projects + modal detail content |
+| `testimonials.ts` | Client quotes |
+| `process.ts` | Process steps |
+| `blog.ts` | Blog posts (rendered at `/blog/[slug]`) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Team/testimonial photos use `randomuser.me` and project/blog covers use
+Unsplash — both are allowlisted in `next.config.ts`. Swap in your own images
+anytime.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Wiring the contact form
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# shahinsportofolio
+`src/components/Contact.tsx` currently simulates submission and animates to a
+success state. To send real messages, replace the `onSubmit` timeout with a
+`fetch` to an API route or a form service (Resend, Formspree, etc.).

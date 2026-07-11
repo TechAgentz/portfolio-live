@@ -3,60 +3,61 @@ import { Space_Grotesk, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-import { profile } from "@/lib/data";
+import { site } from "@/data/site";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
+  display: "swap",
 });
 
-// Update this to your real domain before deploying — OG/canonical URLs resolve against it.
-const siteUrl = "https://mohamed-shahin.vercel.app";
-const title = "Mohamed Shahin M — Full-Stack Developer & Dynamics 365 CRM";
-const description =
-  "Freelance full-stack developer working across Microsoft Dynamics 365 CRM, the Power Platform, and full-stack web & mobile development with React, Node.js, and Flutter.";
+const siteUrl = "https://techagents.vercel.app";
+const title = `${site.name} — We Build Exceptional Digital Experiences`;
+const description = site.intro;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
+  title: {
+    default: title,
+    template: `%s — ${site.name}`,
+  },
   description,
-  applicationName: "Mohamed Shahin — Portfolio",
-  authors: [{ name: profile.name }],
-  creator: profile.name,
+  applicationName: site.name,
   keywords: [
-    "Mohamed Shahin",
-    "Freelance Developer",
-    "Full-Stack Developer",
-    "Dynamics 365",
-    "Power Platform",
-    "Power Pages",
-    "Azure Functions",
-    "React",
-    "Node.js",
-    "Flutter Developer",
+    "software development team",
+    "web development agency",
+    "mobile app development",
+    "Next.js developers",
+    "React development",
+    "product design studio",
+    "cloud engineering",
+    "AI development",
+    site.name,
   ],
+  authors: [{ name: site.name }],
+  creator: site.name,
   alternates: { canonical: "/" },
   openGraph: {
-    type: "profile",
+    type: "website",
     url: siteUrl,
-    siteName: title,
+    siteName: site.name,
     title,
     description,
-    firstName: "Mohamed",
-    lastName: "Shahin M",
     locale: "en_US",
   },
   twitter: {
@@ -72,49 +73,33 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0a0a0b",
-  colorScheme: "dark",
+  themeColor: "#2563eb",
+  colorScheme: "light",
 };
 
-const personJsonLd = {
+const orgJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: profile.name,
-  jobTitle: profile.role,
-  email: `mailto:${profile.email}`,
-  telephone: profile.phone,
+  "@type": "Organization",
+  name: site.name,
   url: siteUrl,
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "India",
-  },
-  sameAs: [profile.linkedin],
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Ponnaiyah Ramajayam Institute of Science and Technology",
-  },
+  email: site.email,
+  telephone: site.phone,
+  description,
+  sameAs: [site.linkedin, site.github, site.twitter],
+  slogan: site.headline,
   knowsAbout: [
-    "Microsoft Dynamics 365",
-    "Power Platform",
-    "Power Pages",
-    "Azure Functions",
-    "Power BI",
-    "Flutter",
-    "React",
-    "Node.js",
-  ],
-  hasCredential: [
-    "Microsoft Power BI Data Analyst Associate (PL-300)",
-    "Microsoft Power Platform Developer Associate (PL-400)",
-    "Microsoft Power Platform Fundamentals (PL-900)",
+    "Web Development",
+    "Mobile App Development",
+    "Cloud Engineering",
+    "DevOps",
+    "AI Engineering",
+    "Product Design",
   ],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
@@ -129,7 +114,7 @@ export default function RootLayout({
         <SpeedInsights />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </body>
     </html>

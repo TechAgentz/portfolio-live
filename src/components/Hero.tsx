@@ -1,159 +1,121 @@
-import { ArrowIcon } from "./icons";
+"use client";
 
-function Plus({ className }: { className: string }) {
-  return (
-    <span
-      aria-hidden
-      className={`pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 text-white/45 ${className}`}
-    >
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2">
-        <path d="M8 1v14M1 8h14" />
-      </svg>
-    </span>
-  );
-}
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { site } from "@/data/site";
+import { techStack } from "@/data/expertise";
+import { Icon } from "./Icons";
 
-function Sparkle({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      aria-hidden
-    >
-      <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" />
-    </svg>
-  );
-}
+const EASE = [0.22, 1, 0.36, 1] as const;
+const headline = site.headline.split(" ");
 
-interface ProfileData {
-  name: string;
-  photo: string;
-  intro: string;
-  role: string;
-}
-
-export default function Hero({ profile }: { profile: ProfileData }) {
-  const year = 2020;
-  const initials = profile.name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
+export default function Hero() {
   return (
     <section
       id="top"
-      className="hero-green relative min-h-[75dvh] overflow-hidden text-white sm:min-h-dvh"
+      className="relative overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28"
     >
-      {/* Faint registration grid */}
-      <div aria-hidden className="hero-grid pointer-events-none absolute inset-0" />
-      <Plus className="left-1/4 top-1/3" />
-      <Plus className="left-1/2 top-1/3" />
-      <Plus className="left-3/4 top-1/3" />
-      <Plus className="left-1/4 top-2/3" />
-      <Plus className="left-3/4 top-2/3" />
-
-      {/* Ghosted watermark name */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[30%] z-0 flex items-center justify-center sm:top-[13%]"
-      >
-        <span className="font-[family-name:var(--font-display)] text-[28vw] font-bold uppercase leading-none tracking-tighter text-white/[0.09] sm:text-[24vw]">
-          Shahin
-        </span>
+      {/* Decorative background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 grid-bg" />
+        <div className="blob left-[-8%] top-[-6%] h-80 w-80 bg-accent-bright/40" />
+        <div className="blob right-[-6%] top-[8%] h-96 w-96 bg-indigo-400/30" />
+        <div className="blob bottom-[-10%] left-[30%] h-80 w-80 bg-sky-300/30" />
+        <motion.div
+          className="absolute right-[12%] top-[26%] h-16 w-16 rounded-2xl border border-accent/20 bg-white/60 shadow-lg backdrop-blur"
+          animate={{ y: [0, -18, 0], rotate: [0, 8, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute left-[8%] top-[48%] h-12 w-12 rounded-full border border-accent/20 bg-white/60 shadow-lg backdrop-blur"
+          animate={{ y: [0, 16, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute right-[22%] bottom-[16%] h-10 w-10 rotate-45 rounded-lg border border-accent/20 bg-white/50 backdrop-blur"
+          animate={{ y: [0, -14, 0], rotate: [45, 60, 45] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
-      {/* Portrait (or placeholder) */}
-      <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center">
-        {profile.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={profile.photo}
-            alt={`Portrait of ${profile.name}`}
-            className="h-[95vh] w-auto object-contain object-bottom sm:h-[90vh]"
-          />
-        ) : (
-          <div
-            role="img"
-            aria-label={`${profile.name} — portrait placeholder`}
-            className="relative flex h-[70vh] w-[min(52vw,430px)] items-center justify-center rounded-t-[2rem]"
-            style={{
-              background:
-                "radial-gradient(90% 70% at 50% 20%, rgba(0,0,0,0.14), transparent 60%)",
-            }}
-          >
-            <span className="font-[family-name:var(--font-display)] text-[9rem] font-bold text-white/15">
-              {initials}
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full border border-border bg-white/70 py-1.5 pl-1.5 pr-4 text-sm shadow-sm backdrop-blur"
+        >
+          <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-white">
+            New
+          </span>
+          <span className="text-muted">
+            Available for Q3 partnerships · Remote-first
+          </span>
+        </motion.div>
+
+        <h1 className="mx-auto max-w-4xl text-center font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.4rem]">
+          {headline.map((word, i) => (
+            <span key={i} className="inline-block overflow-hidden pb-1 align-top">
+              <motion.span
+                className="inline-block pr-[0.25em]"
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.75, delay: 0.15 + i * 0.07, ease: EASE }}
+              >
+                {word === "Exceptional" || word === "Digital" ? (
+                  <span className="grad-text">{word}</span>
+                ) : (
+                  word
+                )}
+              </motion.span>
             </span>
-          </div>
-        )}
-      </div>
+          ))}
+        </h1>
 
-      {/* Foreground content */}
-      <div className="relative z-20 mx-auto flex min-h-[75dvh] max-w-7xl flex-col px-5 pt-20 pb-8 sm:min-h-dvh sm:pt-28 sm:pb-10 sm:px-6">
-        {/* Top row: statement + project card */}
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-          <p className="mono flex max-w-[16rem] gap-2 text-[0.7rem] uppercase leading-relaxed tracking-wide text-white/85">
-            <span className="mt-0.5 text-white">●</span>
-            <span>
-              I build Dynamics 365 CRM solutions and full-stack web &amp; mobile
-              apps that are simple, smart and impactful.
-            </span>
-          </p>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
+          className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-muted"
+        >
+          {site.intro}
+        </motion.p>
 
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7, ease: EASE }}
+          className="mt-9 flex flex-wrap items-center justify-center gap-3"
+        >
+          <Link href="/#team" className="btn btn-accent">
+            Meet the Team <Icon.arrow width={18} />
+          </Link>
+          <Link href="/#work" className="btn btn-ghost">
+            View Our Work
+          </Link>
+          <Link href="/#contact" className="btn btn-outline">
+            Let&apos;s Talk
+          </Link>
+        </motion.div>
 
-        {/* Bottom: giant name */}
-        <div className="mt-auto">
-          <p className="mono mb-1 text-sm tracking-wide text-white/85">
-            ©{year}
-          </p>
-          <h1
-            aria-label="Shahin"
-            className="font-[family-name:var(--font-display)] text-[clamp(3.25rem,16vw,13rem)] font-bold uppercase leading-[0.8] tracking-tighter"
-          >
-            {"Shahin".split("").map((ch, i) => (
+        {/* Tech marquee */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="relative mt-16 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
+        >
+          <div className="flex w-max marquee gap-3">
+            {[...techStack, ...techStack].map((t, i) => (
               <span
                 key={i}
-                aria-hidden="true"
-                className="nav-letter"
-                style={{ animationDelay: `${300 + i * 90}ms` }}
+                className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-muted shadow-sm"
               >
-                {ch}
+                {t}
               </span>
             ))}
-          </h1>
-        </div>
-
-        {/* Let's Talk card — floats bottom-right on desktop */}
-        <a
-          href="#contact"
-          className="group relative mt-8 hidden w-full max-w-xs items-center gap-3 rounded-xl bg-[#0a0a0b] p-3.5 text-white shadow-2xl transition-transform hover:-translate-y-1 sm:flex sm:w-72 lg:absolute lg:bottom-10 lg:right-6 lg:mt-0"
-        >
-            <Sparkle className="absolute right-3 top-3 text-white/40" />
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#16a34a] to-[#166534] font-[family-name:var(--font-display)] text-sm font-bold">
-              {initials}
-            </span>
-            <div className="flex-1">
-              <p className="mono text-[0.65rem] uppercase tracking-wider text-white/55">
-                Let&apos;s Talk
-              </p>
-              <p className="font-[family-name:var(--font-display)] font-semibold leading-tight">
-                Shahin
-              </p>
-              <p className="text-xs text-white/60">Freelance Full-Stack Dev</p>
-            </div>
-            <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 transition-colors group-hover:border-accent group-hover:text-accent">
-              <ArrowIcon width={16} height={16} className="-rotate-45" />
-            </span>
-          </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
