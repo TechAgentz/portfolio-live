@@ -3,14 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { posts } from "@/data/blog";
+import { posts, type Post } from "@/data/blog";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 import { formatDate } from "@/lib/format";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Blog() {
+export default function Blog({ items = posts }: { items?: Post[] }) {
   return (
     <section id="blog" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -29,7 +29,7 @@ export default function Blog() {
         </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {posts.map((p, i) => (
+          {items.map((p, i) => (
             <motion.article
               key={p.slug}
               initial={{ opacity: 0, y: 30 }}

@@ -10,25 +10,56 @@ import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+import {
+  getMembers,
+  getProjects,
+  getPosts,
+  getTestimonials,
+  getExpertise,
+  getProcess,
+  getSettings,
+} from "@/lib/queries";
 
-export default function Home() {
+// Re-fetch from the DB at most once a minute; admin mutations also
+// revalidate this path for near-instant updates.
+export const revalidate = 60;
+
+export default async function Home() {
+  const [
+    settings,
+    members,
+    projects,
+    posts,
+    testimonials,
+    expertise,
+    process,
+  ] = await Promise.all([
+    getSettings(),
+    getMembers(),
+    getProjects(),
+    getPosts(),
+    getTestimonials(),
+    getExpertise(),
+    getProcess(),
+  ]);
+
   return (
     <>
       <ScrollProgress />
-      <Navbar />
+      <Navbar settings={settings} />
       <main>
-        <Hero />
+        <Hero settings={settings} />
         <div className="section-line mx-auto max-w-7xl" />
-        <About />
-        <Team />
-        <Expertise />
-        <Projects />
-        <Process />
-        <Testimonials />
-        <Blog />
-        <Contact />
+        <About settings={settings} />
+        <Team members={members} />
+        <Expertise groups={expertise} />
+        <Projects items={projects} />
+        <Process steps={process} />
+        <Testimonials items={testimonials} />
+        <Blog items={posts} />
+        <Contact settings={settings} />
       </main>
-      <Footer />
+      <Footer settings={settings} />
     </>
   );
 }

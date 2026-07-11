@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { team } from "@/data/team";
+import { team, type Member } from "@/data/team";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Team() {
+export default function Team({ members = team }: { members?: Member[] }) {
   return (
     <section
       id="team"
@@ -27,7 +27,7 @@ export default function Team() {
         />
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((m, i) => (
+          {members.map((m, i) => (
             <motion.article
               key={m.name}
               initial={{ opacity: 0, y: 34 }}

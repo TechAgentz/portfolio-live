@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { site } from "@/data/site";
+import { site, type SiteSettings } from "@/data/site";
 import { Icon } from "./Icons";
 
 const links = [
@@ -15,7 +15,11 @@ const links = [
   { href: "/#blog", label: "Insights" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  settings = site as SiteSettings,
+}: {
+  settings?: SiteSettings;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -49,10 +53,10 @@ export default function Navbar() {
       >
         <Link href="/#top" className="group flex items-center gap-2.5">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.8)] transition-transform duration-300 group-hover:scale-105">
-            {site.brandMark}
+            {settings.brandMark}
           </span>
           <span className="font-display text-lg font-bold tracking-tight">
-            {site.name}
+            {settings.name}
           </span>
         </Link>
 

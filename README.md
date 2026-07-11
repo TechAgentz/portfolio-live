@@ -50,6 +50,39 @@ Team/testimonial photos use `randomuser.me` and project/blog covers use
 Unsplash — both are allowlisted in `next.config.ts`. Swap in your own images
 anytime.
 
+## Admin panel (`/shahinwaseentech`)
+
+A full content admin lives at **`/shahinwaseentech`**, backed by Supabase
+Postgres (via Prisma) with NextAuth email/password login. It manages team,
+projects, blog, testimonials, expertise, process, and global site settings.
+Edits show on the live site within ~60s (ISR), instantly on the pages the
+mutation revalidates.
+
+The public site **falls back to the bundled `src/data/*` content** whenever the
+database is unset or unreachable — so it always builds and renders, DB or not.
+
+### One-time setup
+
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Copy `.env.example` to `.env` and fill in:
+   - `DATABASE_URL` — Supabase **pooled** connection (port `6543`, add `?pgbouncer=true`)
+   - `DIRECT_URL` — Supabase **direct** connection (port `5432`)
+   - `NEXTAUTH_SECRET` — run `openssl rand -base64 32`
+   - `NEXTAUTH_URL` — `http://localhost:3000` (dev) / your domain (prod)
+   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME` — your first admin login
+3. Push the schema and seed content + the admin user:
+   ```bash
+   npm run db:push
+   npm run db:seed
+   ```
+4. Visit `/shahinwaseentech/login` and sign in.
+
+### On Vercel
+
+Add the same env vars in **Project → Settings → Environment Variables**, then
+redeploy. Run `npm run db:push` / `npm run db:seed` once locally against the
+same database (or from a one-off script) to create the tables and admin user.
+
 ## Wiring the contact form
 
 `src/components/Contact.tsx` currently simulates submission and animates to a

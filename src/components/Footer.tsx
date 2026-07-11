@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site } from "@/data/site";
+import { site, type SiteSettings } from "@/data/site";
 import { Icon } from "./Icons";
 
 const cols = [
@@ -23,7 +23,12 @@ const cols = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({
+  settings = site as SiteSettings,
+}: {
+  settings?: SiteSettings;
+}) {
+  const site = settings;
   return (
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">

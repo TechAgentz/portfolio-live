@@ -8,7 +8,13 @@ import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Process() {
+type Step = { step: string; title: string; body: string; icon: string };
+
+export default function Process({
+  steps = processSteps,
+}: {
+  steps?: Step[];
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -39,7 +45,7 @@ export default function Process() {
           />
 
           <div className="space-y-6">
-            {processSteps.map((s) => {
+            {steps.map((s) => {
               const Ico = Icon[s.icon as IconName];
               return (
                 <motion.div

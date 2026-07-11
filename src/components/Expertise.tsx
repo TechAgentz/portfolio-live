@@ -1,13 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { expertiseGroups } from "@/data/expertise";
+import { expertiseGroups, type Skill } from "@/data/expertise";
 import { Icon, type IconName } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Expertise() {
+type Group = { title: string; icon: string; skills: Skill[] };
+
+export default function Expertise({
+  groups = expertiseGroups,
+}: {
+  groups?: Group[];
+}) {
   return (
     <section
       id="expertise"
@@ -26,7 +32,7 @@ export default function Expertise() {
         />
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {expertiseGroups.map((group, gi) => {
+          {groups.map((group, gi) => {
             const Ico = Icon[group.icon as IconName];
             return (
               <motion.div

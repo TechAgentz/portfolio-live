@@ -9,7 +9,11 @@ import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Projects() {
+export default function Projects({
+  items = projects,
+}: {
+  items?: Project[];
+}) {
   const [active, setActive] = useState<Project | null>(null);
 
   useEffect(() => {
@@ -40,7 +44,7 @@ export default function Projects() {
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, i) => (
+          {items.map((p, i) => (
             <motion.button
               key={p.slug}
               onClick={() => setActive(p)}

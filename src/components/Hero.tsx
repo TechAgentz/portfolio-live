@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { site } from "@/data/site";
+import { site, type SiteSettings } from "@/data/site";
 import { techStack } from "@/data/expertise";
 import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const headline = site.headline.split(" ");
 
-export default function Hero() {
+export default function Hero({
+  settings = site as SiteSettings,
+}: {
+  settings?: SiteSettings;
+}) {
+  const headline = settings.headline.split(" ");
   return (
     <section
       id="top"
@@ -78,7 +82,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
           className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-muted"
         >
-          {site.intro}
+          {settings.intro}
         </motion.p>
 
         <motion.div

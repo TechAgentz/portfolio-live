@@ -3,19 +3,23 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { testimonials } from "@/data/testimonials";
+import { testimonials, type Testimonial } from "@/data/testimonials";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Testimonials() {
+export default function Testimonials({
+  items = testimonials,
+}: {
+  items?: Testimonial[];
+}) {
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
 
   const paginate = useCallback(
     (d: number) =>
-      setState(([i]) => [(i + d + testimonials.length) % testimonials.length, d]),
-    []
+      setState(([i]) => [(i + d + items.length) % items.length, d]),
+    [items.length]
   );
 
   useEffect(() => {
@@ -23,7 +27,7 @@ export default function Testimonials() {
     return () => clearInterval(id);
   }, [paginate]);
 
-  const t = testimonials[index];
+  const t = items[index];
 
   return (
     <section className="relative scroll-mt-24 overflow-hidden bg-surface py-14 sm:py-20">
@@ -97,7 +101,7 @@ export default function Testimonials() {
             </button>
 
             <div className="flex gap-2">
-              {testimonials.map((_, i) => (
+              {items.map((_, i) => (
                 <button
                   key={i}
                   aria-label={`Go to testimonial ${i + 1}`}

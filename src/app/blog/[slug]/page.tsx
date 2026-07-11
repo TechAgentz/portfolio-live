@@ -8,9 +8,13 @@ import ScrollProgress from "@/components/ScrollProgress";
 import { Reveal } from "@/components/Motion";
 import { formatDate } from "@/lib/format";
 import { Icon } from "@/components/Icons";
-import { getPost, posts } from "@/data/blog";
+import { getPost, getPosts, getSettings } from "@/lib/queries";
 
-export function generateStaticParams() {
+export const revalidate = 60;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
   return posts.map((p) => ({ slug: p.slug }));
 }
 
@@ -20,7 +24,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return { title: "Post not found" };
   return {
     title: post.title,
@@ -43,15 +47,19 @@ export default async function BlogPost({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const [post, allPosts, settings] = await Promise.all([
+    getPost(slug),
+    getPosts(),
+    getSettings(),
+  ]);
   if (!post) notFound();
 
-  const related = posts.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const related = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
     <>
       <ScrollProgress />
-      <Navbar />
+      <Navbar settings={settings} />
       <main>
         <article className="pt-32 pb-20 sm:pt-40">
           <div className="mx-auto max-w-3xl px-5 sm:px-8">
@@ -176,7 +184,7 @@ export default async function BlogPost({
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer settings={settings} />
     </>
   );
 }

@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next";
-import { posts } from "@/data/blog";
+import { getPosts } from "@/lib/queries";
 
 const siteUrl = "https://techagents.vercel.app";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 300;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
+  const posts = await getPosts();
 
   const routes: MetadataRoute.Sitemap = [
     {

@@ -1,12 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { site, stats, values } from "@/data/site";
+import { site, stats, values, type SiteSettings } from "@/data/site";
 import { Icon, type IconName } from "./Icons";
 import { CountUp, Reveal, Stagger, StaggerItem } from "./Motion";
 import SectionHeading from "./SectionHeading";
 
-export default function About() {
+export default function About({
+  settings = { ...site, stats } as SiteSettings,
+}: {
+  settings?: SiteSettings;
+}) {
+  const cards = settings.stats;
   return (
     <section id="about" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -23,7 +28,7 @@ export default function About() {
 
         {/* Stats */}
         <Stagger className="mt-14 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-          {stats.map((s) => (
+          {cards.map((s) => (
             <StaggerItem key={s.label}>
               <div className="card card-hover h-full p-6 text-center sm:p-8">
                 <div className="font-display text-4xl font-bold tracking-tight text-accent sm:text-5xl">
@@ -48,7 +53,7 @@ export default function About() {
                 grow.
               </p>
               <p className="mt-5 leading-relaxed text-muted">
-                {site.name} was founded on a simple belief: great software comes
+                {settings.name} was founded on a simple belief: great software comes
                 from small teams of people who deeply care. We keep our team
                 lean and senior so every line of code and every pixel earns its
                 place.

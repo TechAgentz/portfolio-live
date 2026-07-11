@@ -2,13 +2,17 @@
 
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { site } from "@/data/site";
+import { site, type SiteSettings } from "@/data/site";
 import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const budgets = ["< $10k", "$10k–25k", "$25k–50k", "$50k+"];
 
-export default function Contact() {
+export default function Contact({
+  settings = site as SiteSettings,
+}: {
+  settings?: SiteSettings;
+}) {
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [budget, setBudget] = useState(budgets[1]);
 
@@ -44,9 +48,9 @@ export default function Contact() {
                 </p>
 
                 <div className="mt-10 space-y-4">
-                  <ContactRow icon={<Icon.mail width={18} />} label={site.email} href={`mailto:${site.email}`} />
-                  <ContactRow icon={<Icon.phone width={18} />} label={site.phone} href={`tel:${site.phone.replace(/\s/g, "")}`} />
-                  <ContactRow icon={<Icon.mapPin width={18} />} label={site.location} />
+                  <ContactRow icon={<Icon.mail width={18} />} label={settings.email} href={`mailto:${settings.email}`} />
+                  <ContactRow icon={<Icon.phone width={18} />} label={settings.phone} href={`tel:${settings.phone.replace(/\s/g, "")}`} />
+                  <ContactRow icon={<Icon.mapPin width={18} />} label={settings.location} />
                 </div>
               </div>
             </div>

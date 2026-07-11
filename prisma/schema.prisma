@@ -1,0 +1,120 @@
+// TechAgents — content + auth schema (Supabase Postgres)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  // Pooled connection (Supabase pgBouncer, port 6543) for the app.
+  url       = env("DATABASE_URL")
+  // Direct connection (port 5432) for migrations / db push.
+  directUrl = env("DIRECT_URL")
+}
+
+// ---- Auth ----
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+}
+
+// ---- Content ----
+model Member {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String
+  photo     String
+  skills    Json     @default("[]")
+  linkedin  String?
+  github    String?
+  twitter   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  category  String
+  year      String
+  summary   String
+  cover     String
+  tags      Json     @default("[]")
+  client    String
+  services  Json     @default("[]")
+  challenge String
+  solution  String
+  results   Json     @default("[]") // [{ value, label }]
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  date        DateTime @default(now())
+  readingTime String
+  category    String
+  cover       String
+  author      String
+  content     Json     @default("[]") // string[] paragraphs
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  name      String
+  role      String
+  company   String
+  avatar    String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model ExpertiseGroup {
+  id        String   @id @default(cuid())
+  title     String
+  icon      String
+  skills    Json     @default("[]") // [{ name, level }]
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model ProcessStep {
+  id        String   @id @default(cuid())
+  step      String
+  title     String
+  body      String
+  icon      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// Singleton site settings (id = "default")
+model Setting {
+  id        String   @id @default("default")
+  name      String
+  brandMark String
+  tagline   String
+  headline  String
+  intro     String
+  email     String
+  phone     String
+  location  String
+  linkedin  String
+  github    String
+  twitter   String
+  calendly  String
+  stats     Json     @default("[]") // [{ value, suffix, label }]
+  updatedAt DateTime @updatedAt
+}

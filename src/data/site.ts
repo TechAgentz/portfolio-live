@@ -14,12 +14,16 @@ export const site = {
   calendly: "https://calendly.com/techagents/intro",
 };
 
-export const stats = [
+export type Stat = { value: number; suffix: string; label: string };
+
+export const stats: Stat[] = [
   { value: 120, suffix: "+", label: "Projects Delivered" },
   { value: 9, suffix: "yrs", label: "Years of Experience" },
   { value: 60, suffix: "+", label: "Happy Clients" },
   { value: 14, suffix: "", label: "Countries Served" },
 ];
+
+export type SiteSettings = typeof site & { stats: Stat[] };
 
 export const values = [
   {
