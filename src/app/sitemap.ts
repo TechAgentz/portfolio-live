@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPosts } from "@/lib/queries";
 
-const siteUrl = "https://teamportfolio-three.vercel.app";
+const siteUrl = "https://techagentz.vercel.app";
 
 export const revalidate = 300;
 

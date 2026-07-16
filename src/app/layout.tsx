@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://teamportfolio-three.vercel.app";
+const siteUrl = "https://techagentz.vercel.app";
 const title = `${site.name} — We Build Exceptional Digital Experiences`;
 const description = site.intro;
 
