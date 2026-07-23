@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { site, type SiteSettings } from "@/data/site";
-import { techStack } from "@/data/expertise";
 import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -52,9 +51,7 @@ export default function Hero({
           <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-white">
             New
           </span>
-          <span className="text-muted">
-            Available for Q3 partnerships · Remote-first
-          </span>
+          <span className="text-muted">{settings.heroBadge}</span>
         </motion.div>
 
         <h1 className="mx-auto max-w-4xl text-center font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.4rem]">
@@ -110,7 +107,7 @@ export default function Hero({
           className="relative mt-16 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
         >
           <div className="flex w-max marquee gap-3">
-            {[...techStack, ...techStack].map((t, i) => (
+            {[...settings.techStack, ...settings.techStack].map((t, i) => (
               <span
                 key={i}
                 className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-muted shadow-sm"

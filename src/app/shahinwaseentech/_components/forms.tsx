@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Field, Textarea, Toggle, Card } from "./ui";
 import { SubmitButton } from "./SubmitButton";
+import { ImageField } from "./ImageField";
 
 function Actions({ cancelHref }: { cancelHref: string }) {
   return (
@@ -32,7 +33,7 @@ export function MemberForm({ record, action }: { record?: MemberRow; action: (fd
           <Field label="Role" name="role" defaultValue={record?.role} required />
         </div>
         <Textarea label="Bio" name="bio" defaultValue={record?.bio} required />
-        <Field label="Photo URL" name="photo" defaultValue={record?.photo} required hint="e.g. https://randomuser.me/api/portraits/women/44.jpg" />
+        <ImageField label="Photo" name="photo" defaultValue={record?.photo} folder="team" aspect="aspect-[4/5]" required />
         <Field label="Skills" name="skills" defaultValue={j(record?.skills)} hint="Comma-separated, e.g. TypeScript, Next.js, AWS" />
         <div className="grid gap-4 sm:grid-cols-3">
           <Field label="LinkedIn URL" name="linkedin" defaultValue={record?.linkedin ?? ""} />
@@ -72,7 +73,7 @@ export function ProjectForm({ record, action }: { record?: ProjectRow; action: (
           <Field label="Year" name="year" defaultValue={record?.year} required />
         </div>
         <Textarea label="Summary" name="summary" defaultValue={record?.summary} rows={2} required />
-        <Field label="Cover image URL" name="cover" defaultValue={record?.cover} required />
+        <ImageField label="Cover image" name="cover" defaultValue={record?.cover} folder="projects" required />
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Tags" name="tags" defaultValue={j(record?.tags)} hint="Comma-separated" />
           <Field label="Services" name="services" defaultValue={j(record?.services)} hint="Comma-separated" />
@@ -117,10 +118,8 @@ export function PostForm({ record, action }: { record?: PostRow; action: (fd: Fo
           <Field label="Reading time" name="readingTime" defaultValue={record?.readingTime} hint="e.g. 6 min read" />
           <Field label="Category" name="category" defaultValue={record?.category} />
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Author" name="author" defaultValue={record?.author} required />
-          <Field label="Cover image URL" name="cover" defaultValue={record?.cover} required />
-        </div>
+        <Field label="Author" name="author" defaultValue={record?.author} required />
+        <ImageField label="Cover image" name="cover" defaultValue={record?.cover} folder="blog" required />
         <Textarea label="Content" name="content" defaultValue={content} rows={10} hint="One paragraph per line." />
         <div className="flex items-center justify-between">
           <Toggle label="Published" name="published" defaultChecked={record?.published ?? true} />
@@ -148,7 +147,7 @@ export function TestimonialForm({ record, action }: { record?: TestimonialRow; a
           <Field label="Role" name="role" defaultValue={record?.role} />
           <Field label="Company" name="company" defaultValue={record?.company} />
         </div>
-        <Field label="Avatar URL" name="avatar" defaultValue={record?.avatar} required />
+        <ImageField label="Avatar" name="avatar" defaultValue={record?.avatar} folder="avatars" aspect="aspect-square" required />
         <Field label="Sort order" name="order" type="number" defaultValue={record?.order ?? 0} />
         <Actions cancelHref="/shahinwaseentech/testimonials" />
       </form>
@@ -199,6 +198,27 @@ export function ProcessForm({ record, action }: { record?: ProcessRow; action: (
         <Textarea label="Body" name="body" defaultValue={record?.body} required />
         <Field label="Sort order" name="order" type="number" defaultValue={record?.order ?? 0} />
         <Actions cancelHref="/shahinwaseentech/process" />
+      </form>
+    </Card>
+  );
+}
+
+// ---------------- Value (About cards) ----------------
+type ValueRow = {
+  id?: string; icon?: string; title?: string; body?: string; order?: number;
+};
+export function ValueForm({ record, action }: { record?: ValueRow; action: (fd: FormData) => void }) {
+  return (
+    <Card>
+      <form action={action} className="space-y-4">
+        {record?.id && <input type="hidden" name="id" defaultValue={record.id} />}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Title" name="title" defaultValue={record?.title} required />
+          <Field label="Icon" name="icon" defaultValue={record?.icon} hint="target, layers, shield, zap, sparkles, trend" />
+        </div>
+        <Textarea label="Body" name="body" defaultValue={record?.body} required />
+        <Field label="Sort order" name="order" type="number" defaultValue={record?.order ?? 0} />
+        <Actions cancelHref="/shahinwaseentech/values" />
       </form>
     </Card>
   );

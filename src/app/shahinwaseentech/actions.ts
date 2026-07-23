@@ -200,6 +200,28 @@ export async function deleteProcess(fd: FormData) {
   revalidateAll("/shahinwaseentech/process");
 }
 
+// ============================ VALUES ============================
+export async function saveValue(fd: FormData) {
+  await requireAdmin();
+  const id = str(fd, "id");
+  const data = {
+    icon: str(fd, "icon"),
+    title: str(fd, "title"),
+    body: str(fd, "body"),
+    order: num(fd, "order"),
+  };
+  if (id) await prisma.value.update({ where: { id }, data });
+  else await prisma.value.create({ data });
+  revalidateAll("/shahinwaseentech/values");
+  redirect("/shahinwaseentech/values");
+}
+
+export async function deleteValue(fd: FormData) {
+  await requireAdmin();
+  await prisma.value.delete({ where: { id: str(fd, "id") } });
+  revalidateAll("/shahinwaseentech/values");
+}
+
 // ============================ SETTINGS ============================
 export async function saveSettings(fd: FormData) {
   await requireAdmin();
@@ -221,6 +243,9 @@ export async function saveSettings(fd: FormData) {
     twitter: str(fd, "twitter"),
     calendly: str(fd, "calendly"),
     stats,
+    heroBadge: str(fd, "heroBadge"),
+    mission: str(fd, "mission"),
+    techStack: csv(str(fd, "techStack")),
   };
   await prisma.setting.upsert({
     where: { id: "default" },

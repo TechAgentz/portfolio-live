@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 async function counts() {
   try {
-    const [members, projects, posts, testimonials, expertise, process] =
+    const [members, projects, posts, testimonials, expertise, process, values] =
       await Promise.all([
         prisma.member.count(),
         prisma.project.count(),
@@ -14,12 +14,13 @@ async function counts() {
         prisma.testimonial.count(),
         prisma.expertiseGroup.count(),
         prisma.processStep.count(),
+        prisma.value.count(),
       ]);
-    return { members, projects, posts, testimonials, expertise, process, ok: true };
+    return { members, projects, posts, testimonials, expertise, process, values, ok: true };
   } catch {
     return {
       members: 0, projects: 0, posts: 0, testimonials: 0,
-      expertise: 0, process: 0, ok: false,
+      expertise: 0, process: 0, values: 0, ok: false,
     };
   }
 }
@@ -34,6 +35,7 @@ export default async function Dashboard() {
     { label: "Testimonials", value: c.testimonials, href: "/shahinwaseentech/testimonials" },
     { label: "Expertise groups", value: c.expertise, href: "/shahinwaseentech/expertise" },
     { label: "Process steps", value: c.process, href: "/shahinwaseentech/process" },
+    { label: "Values", value: c.values, href: "/shahinwaseentech/values" },
   ];
 
   return (

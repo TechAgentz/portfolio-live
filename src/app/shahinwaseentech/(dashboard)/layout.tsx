@@ -14,6 +14,7 @@ const nav = [
   { href: "/shahinwaseentech/testimonials", label: "Testimonials" },
   { href: "/shahinwaseentech/expertise", label: "Expertise" },
   { href: "/shahinwaseentech/process", label: "Process" },
+  { href: "/shahinwaseentech/values", label: "Values" },
   { href: "/shahinwaseentech/settings", label: "Site Settings" },
 ];
 

@@ -100,6 +100,16 @@ model ProcessStep {
   createdAt DateTime @default(now())
 }
 
+// About-section value cards
+model Value {
+  id        String   @id @default(cuid())
+  icon      String
+  title     String
+  body      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
 // Singleton site settings (id = "default")
 model Setting {
   id        String   @id @default("default")
@@ -116,5 +126,8 @@ model Setting {
   twitter   String
   calendly  String
   stats     Json     @default("[]") // [{ value, suffix, label }]
+  heroBadge String   @default("")
+  mission   String   @default("")
+  techStack Json     @default("[]") // string[]
   updatedAt DateTime @updatedAt
 }

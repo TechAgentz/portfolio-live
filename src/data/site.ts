@@ -12,6 +12,9 @@ export const site = {
   github: "https://github.com/techagents",
   twitter: "https://twitter.com/techagents",
   calendly: "https://calendly.com/techagents/intro",
+  heroBadge: "Available for Q3 partnerships · Remote-first",
+  mission:
+    "To help ambitious teams turn bold ideas into products that feel effortless — and stay fast, reliable, and delightful as they grow.",
 };
 
 export type Stat = { value: number; suffix: string; label: string };
@@ -23,9 +26,11 @@ export const stats: Stat[] = [
   { value: 14, suffix: "", label: "Countries Served" },
 ];
 
-export type SiteSettings = typeof site & { stats: Stat[] };
+export type Value = { icon: string; title: string; body: string };
 
-export const values = [
+export type SiteSettings = typeof site & { stats: Stat[]; techStack: string[] };
+
+export const values: Value[] = [
   {
     icon: "target",
     title: "Outcome-obsessed",

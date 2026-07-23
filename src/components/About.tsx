@@ -1,15 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { site, stats, values, type SiteSettings } from "@/data/site";
+import { site, stats, values, type SiteSettings, type Value } from "@/data/site";
 import { Icon, type IconName } from "./Icons";
 import { CountUp, Reveal, Stagger, StaggerItem } from "./Motion";
 import SectionHeading from "./SectionHeading";
 
 export default function About({
   settings = { ...site, stats } as SiteSettings,
+  valueCards = values,
 }: {
   settings?: SiteSettings;
+  valueCards?: Value[];
 }) {
   const cards = settings.stats;
   return (
@@ -48,9 +50,7 @@ export default function About({
             <div className="lg:sticky lg:top-28">
               <span className="kicker">Our mission</span>
               <p className="mt-5 font-display text-2xl font-semibold leading-snug tracking-tight sm:text-[1.7rem]">
-                To help ambitious teams turn bold ideas into products that feel
-                effortless — and stay fast, reliable, and delightful as they
-                grow.
+                {settings.mission}
               </p>
               <p className="mt-5 leading-relaxed text-muted">
                 {settings.name} was founded on a simple belief: great software comes
@@ -62,7 +62,7 @@ export default function About({
           </Reveal>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {values.map((v, i) => {
+            {valueCards.map((v, i) => {
               const Ico = Icon[v.icon as IconName];
               return (
                 <motion.div

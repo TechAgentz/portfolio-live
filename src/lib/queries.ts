@@ -12,7 +12,13 @@ import {
   type Skill,
 } from "@/data/expertise";
 import { processSteps as staticProcess } from "@/data/process";
-import { site as staticSite, stats as staticStats } from "@/data/site";
+import { techStack as staticTechStack } from "@/data/expertise";
+import {
+  site as staticSite,
+  stats as staticStats,
+  values as staticValues,
+  type Value,
+} from "@/data/site";
 
 /**
  * Every query falls back to the bundled static data if the database is
@@ -175,12 +181,22 @@ export async function getProcess(): Promise<ProcessStepView[]> {
 }
 
 export type Stat = { value: number; suffix: string; label: string };
-export type SettingsView = typeof staticSite & { stats: Stat[] };
+export type SettingsView = typeof staticSite & {
+  stats: Stat[];
+  techStack: string[];
+};
+
+const staticSettings: SettingsView = {
+  ...staticSite,
+  stats: staticStats,
+  techStack: staticTechStack,
+};
 
 export async function getSettings(): Promise<SettingsView> {
   return safe(async () => {
     const s = await prisma.setting.findUnique({ where: { id: "default" } });
-    if (!s) return { ...staticSite, stats: staticStats };
+    if (!s) return staticSettings;
+    const techStack = arr<string>(s.techStack);
     return {
       name: s.name,
       brandMark: s.brandMark,
@@ -195,6 +211,17 @@ export async function getSettings(): Promise<SettingsView> {
       twitter: s.twitter,
       calendly: s.calendly,
       stats: arr<Stat>(s.stats, staticStats),
+      heroBadge: s.heroBadge || staticSite.heroBadge,
+      mission: s.mission || staticSite.mission,
+      techStack: techStack.length ? techStack : staticTechStack,
     };
-  }, { ...staticSite, stats: staticStats });
+  }, staticSettings);
+}
+
+export async function getValues(): Promise<Value[]> {
+  return safe(async () => {
+    const rows = await prisma.value.findMany({ orderBy: { order: "asc" } });
+    if (rows.length === 0) return staticValues;
+    return rows.map((v) => ({ icon: v.icon, title: v.title, body: v.body }));
+  }, staticValues);
 }
