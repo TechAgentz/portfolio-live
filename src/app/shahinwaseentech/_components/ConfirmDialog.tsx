@@ -33,6 +33,7 @@ export function ConfirmDialog({
     <AnimatePresence>
       {open && (
         <motion.div
+          key="confirm-overlay"
           className="fixed inset-0 z-[110] grid place-items-center bg-slate-950/50 p-4 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

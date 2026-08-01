@@ -95,7 +95,13 @@ export default function Projects({
       </div>
 
       <AnimatePresence>
-        {active && <ProjectModal project={active} onClose={() => setActive(null)} />}
+        {active && (
+          <ProjectModal
+            key={active.slug}
+            project={active}
+            onClose={() => setActive(null)}
+          />
+        )}
       </AnimatePresence>
     </section>
   );
