@@ -155,13 +155,21 @@ export function ImageField({
             }}
           />
 
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="…or paste an image URL"
-            className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
-          />
+          {url && !busy && (
+            <div className="mt-2 flex items-center justify-between gap-2 text-xs">
+              <span className="inline-flex items-center gap-1 text-emerald-600">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
+                Image ready
+              </span>
+              <button
+                type="button"
+                onClick={() => setUrl("")}
+                className="font-medium text-red-600 hover:text-red-700"
+              >
+                Remove
+              </button>
+            </div>
+          )}
           {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
         </div>
       </div>
