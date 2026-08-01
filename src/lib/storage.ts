@@ -67,7 +67,7 @@ export async function uploadToStorage(
       "Content-Type": contentType,
       "x-upsert": "true",
     },
-    body: input as Buffer,
+    body: new Uint8Array(input),
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
