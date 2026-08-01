@@ -50,9 +50,9 @@ Team/testimonial photos use `randomuser.me` and project/blog covers use
 Unsplash — both are allowlisted in `next.config.ts`. Swap in your own images
 anytime.
 
-## Admin panel (`/shahinwaseentech`)
+## Admin panel (`/techzadmin`)
 
-A full content admin lives at **`/shahinwaseentech`**, backed by Supabase
+A full content admin lives at **`/techzadmin`**, backed by Supabase
 Postgres (via Prisma) with NextAuth email/password login. It manages team,
 projects, blog, testimonials, expertise, process, and global site settings.
 Edits show on the live site within ~60s (ISR), instantly on the pages the
@@ -75,7 +75,7 @@ database is unset or unreachable — so it always builds and renders, DB or not.
    npm run db:push
    npm run db:seed
    ```
-4. Visit `/shahinwaseentech/login` and sign in.
+4. Visit `/techzadmin/login` and sign in.
 
 ### On Vercel
 
