@@ -23,12 +23,61 @@ export function ImageField({
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // avatars/team are small; covers larger
+  const maxDim = folder === "team" || folder === "avatars" ? 640 : 1600;
+
+  // Resize + re-encode to WebP in the browser before upload. SVG/GIF pass
+  // through untouched (canvas would rasterize / drop animation).
+  async function compress(file: File): Promise<Blob> {
+    if (file.type === "image/svg+xml" || file.type === "image/gif") return file;
+    try {
+      const dataUrl: string = await new Promise((res, rej) => {
+        const fr = new FileReader();
+        fr.onload = () => res(fr.result as string);
+        fr.onerror = rej;
+        fr.readAsDataURL(file);
+      });
+      const img: HTMLImageElement = await new Promise((res, rej) => {
+        const i = new window.Image();
+        i.onload = () => res(i);
+        i.onerror = rej;
+        i.src = dataUrl;
+      });
+      let w = img.naturalWidth;
+      let h = img.naturalHeight;
+      if (w > maxDim || h > maxDim) {
+        const s = Math.min(maxDim / w, maxDim / h);
+        w = Math.round(w * s);
+        h = Math.round(h * s);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return file;
+      ctx.drawImage(img, 0, 0, w, h);
+      const blob: Blob | null = await new Promise((res) =>
+        canvas.toBlob(res, "image/webp", 0.8)
+      );
+      // Only use the compressed version if it's actually smaller.
+      return blob && blob.size < file.size ? blob : file;
+    } catch {
+      return file;
+    }
+  }
+
   async function upload(file: File) {
     setBusy(true);
     setError("");
     try {
+      const optimized = await compress(file);
+      const isWebp = optimized !== file;
       const fd = new FormData();
-      fd.append("file", file);
+      fd.append(
+        "file",
+        optimized,
+        isWebp ? "image.webp" : file.name
+      );
       fd.append("folder", folder);
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
       const data = await res.json();

@@ -1,6 +1,5 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
-import sharp from "sharp";
 
 const SUPABASE_URL =
   process.env.SUPABASE_URL ?? "https://bznwnfglwvktivjvfnbj.supabase.co";
@@ -34,13 +33,22 @@ async function ensureBucket() {
   bucketReady = true;
 }
 
+const EXT: Record<string, string> = {
+  "image/webp": "webp",
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg",
+  "image/gif": "gif",
+  "image/svg+xml": "svg",
+};
+
 /**
- * Compresses an image (resize + WebP, quality 78) and uploads it to Supabase
- * Storage. SVG/GIF are stored as-is (to keep vectors / animation). Returns the
- * public URL.
+ * Uploads image bytes to Supabase Storage and returns the public URL.
+ * Compression happens client-side (canvas → WebP) before upload; images
+ * arriving here are already optimized.
  */
-export async function compressAndUpload(
-  input: Buffer,
+export async function uploadToStorage(
+  input: Buffer | Uint8Array,
   contentType: string,
   folder: string
 ): Promise<string> {
@@ -48,34 +56,18 @@ export async function compressAndUpload(
   await ensureBucket();
 
   const safeFolder = (folder || "misc").replace(/[^a-z0-9_-]/gi, "");
-  let out = input;
-  let ext = "webp";
-  let outType = "image/webp";
-
-  if (contentType === "image/svg+xml") {
-    ext = "svg"; outType = contentType; out = input;
-  } else if (contentType === "image/gif") {
-    ext = "gif"; outType = contentType; out = input; // keep animation
-  } else {
-    // Small square-ish assets (avatars/team) get a tighter cap than covers.
-    const maxDim = safeFolder === "team" || safeFolder === "avatars" ? 640 : 1600;
-    out = await sharp(input)
-      .rotate()
-      .resize({ width: maxDim, height: maxDim, fit: "inside", withoutEnlargement: true })
-      .webp({ quality: 78 })
-      .toBuffer();
-  }
-
+  const ext = EXT[contentType] ?? "bin";
   const path = `${safeFolder}/${randomUUID()}.${ext}`;
+
   const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
     method: "POST",
     headers: {
       apikey: SERVICE_KEY,
       Authorization: `Bearer ${SERVICE_KEY}`,
-      "Content-Type": outType,
+      "Content-Type": contentType,
       "x-upsert": "true",
     },
-    body: out,
+    body: input as Buffer,
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
