@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { SignOut } from "../_components/SignOut";
+import { Toaster } from "../_components/toast";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-surface text-foreground">
+      <Toaster />
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 lg:px-6">
         {/* Sidebar */}
         <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-60 shrink-0 flex-col rounded-2xl border border-border bg-white p-4 shadow-sm lg:flex">

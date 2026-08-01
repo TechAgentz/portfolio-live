@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { DeleteButton } from "./SubmitButton";
+import { DeleteButton } from "./DeleteButton";
 
 export function AdminList({ children, empty }: { children: ReactNode; empty?: boolean }) {
   if (empty) {
@@ -25,7 +25,7 @@ export function AdminRow({
   title: string;
   meta?: string;
   editHref: string;
-  deleteAction: (fd: FormData) => void;
+  deleteAction: (fd: FormData) => Promise<void> | void;
   thumb?: ReactNode;
 }) {
   return (
@@ -42,10 +42,7 @@ export function AdminRow({
         >
           Edit
         </Link>
-        <form action={deleteAction}>
-          <input type="hidden" name="id" value={id} />
-          <DeleteButton />
-        </form>
+        <DeleteButton id={id} action={deleteAction} name={title} />
       </div>
     </div>
   );

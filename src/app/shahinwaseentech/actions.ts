@@ -54,7 +54,7 @@ export async function saveMember(fd: FormData) {
   if (id) await prisma.member.update({ where: { id }, data });
   else await prisma.member.create({ data });
   revalidateAll("/shahinwaseentech/team");
-  redirect("/shahinwaseentech/team");
+  redirect("/shahinwaseentech/team?flash=saved");
 }
 
 export async function deleteMember(fd: FormData) {
@@ -89,7 +89,7 @@ export async function saveProject(fd: FormData) {
   if (id) await prisma.project.update({ where: { id }, data });
   else await prisma.project.create({ data });
   revalidateAll("/shahinwaseentech/projects");
-  redirect("/shahinwaseentech/projects");
+  redirect("/shahinwaseentech/projects?flash=saved");
 }
 
 export async function deleteProject(fd: FormData) {
@@ -119,7 +119,7 @@ export async function savePost(fd: FormData) {
   if (id) await prisma.post.update({ where: { id }, data });
   else await prisma.post.create({ data });
   revalidateAll("/shahinwaseentech/blog");
-  redirect("/shahinwaseentech/blog");
+  redirect("/shahinwaseentech/blog?flash=saved");
 }
 
 export async function deletePost(fd: FormData) {
@@ -143,7 +143,7 @@ export async function saveTestimonial(fd: FormData) {
   if (id) await prisma.testimonial.update({ where: { id }, data });
   else await prisma.testimonial.create({ data });
   revalidateAll("/shahinwaseentech/testimonials");
-  redirect("/shahinwaseentech/testimonials");
+  redirect("/shahinwaseentech/testimonials?flash=saved");
 }
 
 export async function deleteTestimonial(fd: FormData) {
@@ -169,7 +169,7 @@ export async function saveExpertise(fd: FormData) {
   if (id) await prisma.expertiseGroup.update({ where: { id }, data });
   else await prisma.expertiseGroup.create({ data });
   revalidateAll("/shahinwaseentech/expertise");
-  redirect("/shahinwaseentech/expertise");
+  redirect("/shahinwaseentech/expertise?flash=saved");
 }
 
 export async function deleteExpertise(fd: FormData) {
@@ -192,7 +192,7 @@ export async function saveProcess(fd: FormData) {
   if (id) await prisma.processStep.update({ where: { id }, data });
   else await prisma.processStep.create({ data });
   revalidateAll("/shahinwaseentech/process");
-  redirect("/shahinwaseentech/process");
+  redirect("/shahinwaseentech/process?flash=saved");
 }
 
 export async function deleteProcess(fd: FormData) {
@@ -214,7 +214,7 @@ export async function saveValue(fd: FormData) {
   if (id) await prisma.value.update({ where: { id }, data });
   else await prisma.value.create({ data });
   revalidateAll("/shahinwaseentech/values");
-  redirect("/shahinwaseentech/values");
+  redirect("/shahinwaseentech/values?flash=saved");
 }
 
 export async function deleteValue(fd: FormData) {
@@ -242,7 +242,7 @@ export async function saveSections(fd: FormData) {
   }
   revalidatePath("/");
   revalidatePath("/shahinwaseentech/sections");
-  redirect("/shahinwaseentech/sections");
+  redirect("/shahinwaseentech/sections?flash=saved");
 }
 
 // ============================ SETTINGS ============================
@@ -277,5 +277,5 @@ export async function saveSettings(fd: FormData) {
   });
   revalidatePath("/");
   revalidatePath("/shahinwaseentech/settings");
-  redirect("/shahinwaseentech/settings");
+  redirect("/shahinwaseentech/settings?flash=saved");
 }

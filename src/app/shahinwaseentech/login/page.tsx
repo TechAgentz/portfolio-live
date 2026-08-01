@@ -82,9 +82,16 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-accent w-full disabled:opacity-60"
+              className="btn btn-accent w-full disabled:opacity-70"
             >
-              {loading ? "Signing in…" : "Sign in"}
+              {loading ? (
+                <>
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  Signing in…
+                </>
+              ) : (
+                "Sign in"
+              )}
             </button>
           </form>
         </div>
