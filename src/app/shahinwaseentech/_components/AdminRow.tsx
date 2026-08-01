@@ -5,7 +5,7 @@ import { DeleteButton } from "./DeleteButton";
 export function AdminList({ children, empty }: { children: ReactNode; empty?: boolean }) {
   if (empty) {
     return (
-      <div className="rounded-xl border border-dashed border-border bg-white p-10 text-center text-sm text-muted">
+      <div className="rounded-xl border border-dashed border-slate-200 bg-white p-10 text-center text-sm text-muted">
         Nothing here yet. Click <b>Add new</b> to create the first item.
       </div>
     );
@@ -29,7 +29,7 @@ export function AdminRow({
   thumb?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-border bg-white p-3 shadow-sm transition-colors hover:border-accent/40">
+    <div className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition-colors hover:border-accent/40">
       {thumb}
       <div className="min-w-0 flex-1">
         <div className="truncate text-sm font-semibold">{title}</div>

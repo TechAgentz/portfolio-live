@@ -30,7 +30,7 @@ export function Field({
         defaultValue={defaultValue}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
       />
       {hint && <span className="mt-1 block text-xs text-faint">{hint}</span>}
     </label>
@@ -66,7 +66,7 @@ export function Textarea({
         defaultValue={defaultValue}
         placeholder={placeholder}
         required={required}
-        className="w-full resize-y rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+        className="w-full resize-y rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
       />
       {hint && <span className="mt-1 block text-xs text-faint">{hint}</span>}
     </label>
@@ -88,7 +88,7 @@ export function Toggle({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="h-4 w-4 rounded border-border text-accent focus:ring-accent"
+        className="h-4 w-4 rounded border-slate-200 text-accent focus:ring-accent"
       />
       <span className="text-sm font-medium">{label}</span>
     </label>
@@ -119,7 +119,7 @@ export function PageHeader({
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border border-border bg-white p-5 shadow-sm ${className}`}>
+    <div className={`rounded-xl border border-slate-200 bg-white p-5 shadow-sm ring-1 ring-slate-900/5 ${className}`}>
       {children}
     </div>
   );

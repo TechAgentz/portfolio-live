@@ -51,7 +51,7 @@ export function ImageField({
       <div className="flex flex-col gap-3 sm:flex-row">
         {/* Preview */}
         <div
-          className={`relative ${aspect} w-full shrink-0 overflow-hidden rounded-lg border border-border bg-surface sm:w-40`}
+          className={`relative ${aspect} w-full shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-surface sm:w-40`}
         >
           {url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -79,7 +79,7 @@ export function ImageField({
             }}
             onClick={() => inputRef.current?.click()}
             className={`grid cursor-pointer place-items-center rounded-lg border border-dashed px-4 py-4 text-center text-sm transition-colors ${
-              dragOver ? "border-accent bg-accent-soft" : "border-border hover:border-accent/50"
+              dragOver ? "border-accent bg-accent-soft" : "border-slate-200 hover:border-accent/50"
             }`}
           >
             {busy ? (
@@ -111,7 +111,7 @@ export function ImageField({
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="…or paste an image URL"
-            className="mt-2 w-full rounded-lg border border-border bg-white px-3 py-2 text-xs outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+            className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs outline-none transition-all placeholder:text-faint focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
           />
           {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
         </div>

@@ -4,21 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { SignOut } from "../_components/SignOut";
 import { Toaster } from "../_components/toast";
+import { SidebarNav, MobileNav } from "../_components/NavLinks";
 
 export const dynamic = "force-dynamic";
-
-const nav = [
-  { href: "/shahinwaseentech", label: "Dashboard", exact: true },
-  { href: "/shahinwaseentech/team", label: "Team" },
-  { href: "/shahinwaseentech/projects", label: "Projects" },
-  { href: "/shahinwaseentech/blog", label: "Blog" },
-  { href: "/shahinwaseentech/testimonials", label: "Testimonials" },
-  { href: "/shahinwaseentech/expertise", label: "Expertise" },
-  { href: "/shahinwaseentech/process", label: "Process" },
-  { href: "/shahinwaseentech/values", label: "Values" },
-  { href: "/shahinwaseentech/sections", label: "Section Headings" },
-  { href: "/shahinwaseentech/settings", label: "Site Settings" },
-];
 
 export default async function DashboardLayout({
   children,
@@ -29,55 +17,46 @@ export default async function DashboardLayout({
   if (!session) redirect("/shahinwaseentech/login");
 
   return (
-    <div className="min-h-screen bg-surface text-foreground">
+    <div className="min-h-screen bg-slate-100 text-foreground">
       <Toaster />
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 lg:px-6">
-        {/* Sidebar */}
-        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-60 shrink-0 flex-col rounded-2xl border border-border bg-white p-4 shadow-sm lg:flex">
+        {/* Sidebar (dark, high-contrast) */}
+        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-60 shrink-0 flex-col rounded-2xl bg-slate-900 p-4 text-slate-300 shadow-xl ring-1 ring-black/5 lg:flex">
           <Link href="/shahinwaseentech" className="mb-6 flex items-center gap-2.5 px-1">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.9)]">
               TA
             </span>
             <div>
-              <div className="font-display text-sm font-bold leading-tight">
+              <div className="font-display text-sm font-bold leading-tight text-white">
                 TechAgents
               </div>
-              <div className="text-[11px] text-faint">Admin</div>
+              <div className="text-[11px] text-slate-400">Admin panel</div>
             </div>
           </Link>
 
-          <nav className="flex-1 space-y-1">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className="block rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-accent-soft hover:text-accent"
-              >
-                {n.label}
-              </Link>
-            ))}
-          </nav>
+          <SidebarNav />
 
-          <div className="mt-4 space-y-1 border-t border-border pt-4">
+          <div className="mt-4 space-y-1 border-t border-white/10 pt-4">
             <Link
               href="/"
               target="_blank"
-              className="block rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-accent-soft hover:text-accent"
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
             >
               View site ↗
             </Link>
-            <div className="px-3 py-1 text-xs text-faint">
+            <div className="truncate px-3 py-1 text-xs text-slate-500">
               {session.user?.email}
             </div>
             <SignOut />
           </div>
         </aside>
 
-        {/* Mobile top bar */}
-        <div className="w-full">
-          <div className="mb-4 flex items-center justify-between rounded-xl border border-border bg-white px-4 py-3 shadow-sm lg:hidden">
+        {/* Content column */}
+        <div className="w-full min-w-0">
+          {/* Mobile top bar */}
+          <div className="mb-4 flex items-center justify-between rounded-xl bg-slate-900 px-4 py-3 text-white shadow-lg lg:hidden">
             <Link href="/shahinwaseentech" className="flex items-center gap-2">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-xs font-bold text-white">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-accent-bright to-accent text-xs font-bold text-white">
                 TA
               </span>
               <span className="font-display text-sm font-bold">Admin</span>
@@ -85,18 +64,7 @@ export default async function DashboardLayout({
             <SignOut />
           </div>
 
-          {/* Mobile nav */}
-          <nav className="mb-4 flex gap-2 overflow-x-auto pb-1 lg:hidden">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className="whitespace-nowrap rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-muted"
-              >
-                {n.label}
-              </Link>
-            ))}
-          </nav>
+          <MobileNav />
 
           <main className="pb-16">{children}</main>
         </div>

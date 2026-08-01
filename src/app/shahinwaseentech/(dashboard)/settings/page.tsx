@@ -47,12 +47,12 @@ export default async function SettingsPage() {
           <Textarea label="Mission statement" name="mission" defaultValue={v.mission} rows={2} hint="Shown in the About section." />
           <Textarea label="Tech stack" name="techStack" defaultValue={techText} rows={2} hint="Comma-separated — powers the hero marquee." />
 
-          <div className="border-t border-border pt-4">
+          <div className="border-t border-slate-200 pt-4">
             <h2 className="mb-3 text-sm font-semibold text-muted">Stats (About section counters)</h2>
             <Textarea label="Stats" name="stats" defaultValue={statsText} rows={5} hint="One per line: value | suffix | label  (e.g. 120 | + | Projects Delivered)" />
           </div>
 
-          <div className="border-t border-border pt-4">
+          <div className="border-t border-slate-200 pt-4">
             <h2 className="mb-3 text-sm font-semibold text-muted">Contact</h2>
             <div className="grid gap-4 sm:grid-cols-3">
               <Field label="Email" name="email" defaultValue={v.email} />
@@ -61,7 +61,7 @@ export default async function SettingsPage() {
             </div>
           </div>
 
-          <div className="border-t border-border pt-4">
+          <div className="border-t border-slate-200 pt-4">
             <h2 className="mb-3 text-sm font-semibold text-muted">Social links</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="LinkedIn" name="linkedin" defaultValue={v.linkedin} />

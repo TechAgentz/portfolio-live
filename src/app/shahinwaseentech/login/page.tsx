@@ -43,7 +43,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-border bg-white p-7 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
           <h1 className="font-display text-xl font-bold">Sign in</h1>
           <p className="mt-1 text-sm text-muted">
             Enter your admin credentials to continue.
@@ -58,7 +58,7 @@ export default function LoginPage() {
                 required
                 autoComplete="email"
                 placeholder="admin@techagents.dev"
-                className="w-full rounded-lg border border-border bg-white px-3 py-2.5 text-sm outline-none transition-all focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none transition-all focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
               />
             </label>
             <label className="block">
@@ -69,7 +69,7 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
                 placeholder="••••••••"
-                className="w-full rounded-lg border border-border bg-white px-3 py-2.5 text-sm outline-none transition-all focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none transition-all focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
               />
             </label>
 

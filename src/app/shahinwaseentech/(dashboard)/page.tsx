@@ -58,7 +58,7 @@ export default async function Dashboard() {
           <Link
             key={card.label}
             href={card.href}
-            className="group rounded-xl border border-border bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+            className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
           >
             <div className="font-display text-3xl font-bold text-accent">
               {card.value}
@@ -73,7 +73,7 @@ export default async function Dashboard() {
         ))}
       </div>
 
-      <div className="mt-6 rounded-xl border border-border bg-white p-5 shadow-sm">
+      <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <h2 className="font-display text-lg font-semibold">Quick links</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link href="/shahinwaseentech/settings" className="btn btn-ghost text-sm">
