@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects, type Project } from "@/data/projects";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
@@ -11,8 +12,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Projects({
   items = projects,
+  heading = sectionDefaults.work,
 }: {
   items?: Project[];
+  heading?: SectionHeadingData;
 }) {
   const [active, setActive] = useState<Project | null>(null);
 
@@ -32,14 +35,10 @@ export default function Projects({
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             align="left"
-            kicker="Featured work"
-            title={
-              <>
-                Products we&apos;re{" "}
-                <span className="grad-text">proud of</span>
-              </>
-            }
-            subtitle="A selection of platforms, apps, and tools we've shipped for startups and enterprises alike."
+            kicker={heading.kicker}
+            title={heading.title}
+            highlight={heading.highlight}
+            subtitle={heading.subtitle}
           />
         </div>
 

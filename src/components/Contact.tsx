@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { site, type SiteSettings } from "@/data/site";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -10,8 +11,10 @@ const budgets = ["< $10k", "$10k–25k", "$25k–50k", "$50k+"];
 
 export default function Contact({
   settings = site as SiteSettings,
+  heading = sectionDefaults.contact,
 }: {
   settings?: SiteSettings;
+  heading?: SectionHeadingData;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
   const [budget, setBudget] = useState(budgets[1]);
@@ -37,14 +40,13 @@ export default function Contact({
               </div>
               <div className="relative">
                 <span className="kicker text-accent-bright">
-                  Let&apos;s collaborate
+                  {heading.kicker}
                 </span>
                 <h2 className="mt-4 font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl">
-                  Have a project in mind? Let&apos;s build it together.
+                  {heading.title}
                 </h2>
                 <p className="mt-4 max-w-md leading-relaxed text-slate-300">
-                  Tell us where you want to go. We&apos;ll reply within one
-                  business day with concrete next steps — no sales fluff.
+                  {heading.subtitle}
                 </p>
 
                 <div className="mt-10 space-y-4">

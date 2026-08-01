@@ -3,12 +3,19 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { team, type Member } from "@/data/team";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Team({ members = team }: { members?: Member[] }) {
+export default function Team({
+  members = team,
+  heading = sectionDefaults.team,
+}: {
+  members?: Member[];
+  heading?: SectionHeadingData;
+}) {
   return (
     <section
       id="team"
@@ -16,14 +23,10 @@ export default function Team({ members = team }: { members?: Member[] }) {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          kicker="Meet the team"
-          title={
-            <>
-              The people behind{" "}
-              <span className="grad-text">your product</span>
-            </>
-          }
-          subtitle="A compact crew of specialists. When you work with us, you work directly with the people writing the code and shaping the pixels."
+          kicker={heading.kicker}
+          title={heading.title}
+          highlight={heading.highlight}
+          subtitle={heading.subtitle}
         />
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

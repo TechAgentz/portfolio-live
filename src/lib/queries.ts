@@ -14,6 +14,11 @@ import {
 import { processSteps as staticProcess } from "@/data/process";
 import { techStack as staticTechStack } from "@/data/expertise";
 import {
+  sectionDefaults,
+  type SectionKey,
+  type SectionHeadingData,
+} from "@/data/sections";
+import {
   site as staticSite,
   stats as staticStats,
   values as staticValues,
@@ -224,4 +229,25 @@ export async function getValues(): Promise<Value[]> {
     if (rows.length === 0) return staticValues;
     return rows.map((v) => ({ icon: v.icon, title: v.title, body: v.body }));
   }, staticValues);
+}
+
+export type Sections = Record<SectionKey, SectionHeadingData>;
+
+export async function getSections(): Promise<Sections> {
+  return safe(async () => {
+    const rows = await prisma.sectionHeading.findMany();
+    if (rows.length === 0) return sectionDefaults;
+    const map = { ...sectionDefaults };
+    for (const r of rows) {
+      if (r.key in map) {
+        map[r.key as SectionKey] = {
+          kicker: r.kicker,
+          title: r.title,
+          highlight: r.highlight,
+          subtitle: r.subtitle,
+        };
+      }
+    }
+    return map;
+  }, sectionDefaults);
 }

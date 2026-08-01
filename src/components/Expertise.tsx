@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { expertiseGroups, type Skill } from "@/data/expertise";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon, type IconName } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
@@ -11,8 +12,10 @@ type Group = { title: string; icon: string; skills: Skill[] };
 
 export default function Expertise({
   groups = expertiseGroups,
+  heading = sectionDefaults.expertise,
 }: {
   groups?: Group[];
+  heading?: SectionHeadingData;
 }) {
   return (
     <section
@@ -21,14 +24,10 @@ export default function Expertise({
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          kicker="Our expertise"
-          title={
-            <>
-              Full-stack capability,{" "}
-              <span className="grad-text">end to end</span>
-            </>
-          }
-          subtitle="From the first wireframe to the last deploy, we cover every layer of the modern product stack — so you never have to stitch vendors together."
+          kicker={heading.kicker}
+          title={heading.title}
+          highlight={heading.highlight}
+          subtitle={heading.subtitle}
         />
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

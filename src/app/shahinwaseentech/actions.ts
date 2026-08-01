@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sectionOrder } from "@/data/sections";
 
 // ------------------------------------------------------------------
 // Guard — every mutation requires an authenticated admin session.
@@ -220,6 +221,28 @@ export async function deleteValue(fd: FormData) {
   await requireAdmin();
   await prisma.value.delete({ where: { id: str(fd, "id") } });
   revalidateAll("/shahinwaseentech/values");
+}
+
+// ============================ SECTION HEADINGS ============================
+export async function saveSections(fd: FormData) {
+  await requireAdmin();
+  for (const [i, key] of sectionOrder.entries()) {
+    const data = {
+      kicker: str(fd, `${key}__kicker`),
+      title: str(fd, `${key}__title`),
+      highlight: str(fd, `${key}__highlight`),
+      subtitle: str(fd, `${key}__subtitle`),
+      order: i,
+    };
+    await prisma.sectionHeading.upsert({
+      where: { key },
+      update: data,
+      create: { key, ...data },
+    });
+  }
+  revalidatePath("/");
+  revalidatePath("/shahinwaseentech/sections");
+  redirect("/shahinwaseentech/sections");
 }
 
 // ============================ SETTINGS ============================

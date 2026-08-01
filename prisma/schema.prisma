@@ -110,6 +110,16 @@ model Value {
   createdAt DateTime @default(now())
 }
 
+// Editable section headings (kicker / title / subtitle) keyed by section
+model SectionHeading {
+  key       String @id
+  kicker    String @default("")
+  title     String @default("")
+  highlight String @default("")
+  subtitle  String @default("")
+  order     Int    @default(0)
+}
+
 // Singleton site settings (id = "default")
 model Setting {
   id        String   @id @default("default")

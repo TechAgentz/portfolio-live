@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { site, stats, values, type SiteSettings, type Value } from "@/data/site";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon, type IconName } from "./Icons";
 import { CountUp, Reveal, Stagger, StaggerItem } from "./Motion";
 import SectionHeading from "./SectionHeading";
@@ -9,23 +10,21 @@ import SectionHeading from "./SectionHeading";
 export default function About({
   settings = { ...site, stats } as SiteSettings,
   valueCards = values,
+  heading = sectionDefaults.about,
 }: {
   settings?: SiteSettings;
   valueCards?: Value[];
+  heading?: SectionHeadingData;
 }) {
   const cards = settings.stats;
   return (
     <section id="about" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          kicker="Who we are"
-          title={
-            <>
-              A senior team obsessed with{" "}
-              <span className="grad-text">real outcomes</span>
-            </>
-          }
-          subtitle="We're not an agency that hands off to juniors. Every project is led by seasoned engineers and designers who care about your product like it's their own."
+          kicker={heading.kicker}
+          title={heading.title}
+          highlight={heading.highlight}
+          subtitle={heading.subtitle}
         />
 
         {/* Stats */}

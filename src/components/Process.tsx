@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { processSteps } from "@/data/process";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon, type IconName } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
@@ -12,8 +13,10 @@ type Step = { step: string; title: string; body: string; icon: string };
 
 export default function Process({
   steps = processSteps,
+  heading = sectionDefaults.process,
 }: {
   steps?: Step[];
+  heading?: SectionHeadingData;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -26,14 +29,10 @@ export default function Process({
     <section id="process" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          kicker="How we work"
-          title={
-            <>
-              A process built for{" "}
-              <span className="grad-text">momentum</span>
-            </>
-          }
-          subtitle="No black boxes, no surprises — a clear rhythm from first conversation to a product that keeps getting better."
+          kicker={heading.kicker}
+          title={heading.title}
+          highlight={heading.highlight}
+          subtitle={heading.subtitle}
         />
 
         <div ref={ref} className="relative mx-auto mt-16 max-w-2xl pl-2">

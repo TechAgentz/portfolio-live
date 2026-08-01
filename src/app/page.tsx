@@ -19,6 +19,7 @@ import {
   getProcess,
   getSettings,
   getValues,
+  getSections,
 } from "@/lib/queries";
 
 // Re-fetch from the DB at most once a minute; admin mutations also
@@ -35,6 +36,7 @@ export default async function Home() {
     expertise,
     process,
     valueCards,
+    sections,
   ] = await Promise.all([
     getSettings(),
     getMembers(),
@@ -44,6 +46,7 @@ export default async function Home() {
     getExpertise(),
     getProcess(),
     getValues(),
+    getSections(),
   ]);
 
   return (
@@ -53,14 +56,14 @@ export default async function Home() {
       <main>
         <Hero settings={settings} />
         <div className="section-line mx-auto max-w-7xl" />
-        <About settings={settings} valueCards={valueCards} />
-        <Team members={members} />
-        <Expertise groups={expertise} />
-        <Projects items={projects} />
-        <Process steps={process} />
-        <Testimonials items={testimonials} />
-        <Blog items={posts} />
-        <Contact settings={settings} />
+        <About settings={settings} valueCards={valueCards} heading={sections.about} />
+        <Team members={members} heading={sections.team} />
+        <Expertise groups={expertise} heading={sections.expertise} />
+        <Projects items={projects} heading={sections.work} />
+        <Process steps={process} heading={sections.process} />
+        <Testimonials items={testimonials} heading={sections.testimonials} />
+        <Blog items={posts} heading={sections.blog} />
+        <Contact settings={settings} heading={sections.contact} />
       </main>
       <Footer settings={settings} />
     </>

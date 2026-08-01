@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { testimonials, type Testimonial } from "@/data/testimonials";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 
@@ -11,8 +12,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Testimonials({
   items = testimonials,
+  heading = sectionDefaults.testimonials,
 }: {
   items?: Testimonial[];
+  heading?: SectionHeadingData;
 }) {
   const [[index, dir], setState] = useState<[number, number]>([0, 0]);
 
@@ -38,14 +41,10 @@ export default function Testimonials({
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
-          kicker="Testimonials"
-          title={
-            <>
-              Trusted by teams who{" "}
-              <span className="grad-text">ship</span>
-            </>
-          }
-          subtitle="We measure our success by the long-term partnerships we build. Here's what our clients say."
+          kicker={heading.kicker}
+          title={heading.title}
+          highlight={heading.highlight}
+          subtitle={heading.subtitle}
         />
 
         <div className="relative mx-auto mt-14 max-w-3xl">

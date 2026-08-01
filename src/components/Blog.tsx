@@ -4,27 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { posts, type Post } from "@/data/blog";
+import { sectionDefaults, type SectionHeadingData } from "@/data/sections";
 import { Icon } from "./Icons";
 import SectionHeading from "./SectionHeading";
 import { formatDate } from "@/lib/format";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function Blog({ items = posts }: { items?: Post[] }) {
+export default function Blog({
+  items = posts,
+  heading = sectionDefaults.blog,
+}: {
+  items?: Post[];
+  heading?: SectionHeadingData;
+}) {
   return (
     <section id="blog" className="relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             align="left"
-            kicker="Insights"
-            title={
-              <>
-                Notes from the{" "}
-                <span className="grad-text">workshop</span>
-              </>
-            }
-            subtitle="Lessons, opinions, and deep dives from the team on building software that lasts."
+            kicker={heading.kicker}
+            title={heading.title}
+            highlight={heading.highlight}
+            subtitle={heading.subtitle}
           />
         </div>
 
