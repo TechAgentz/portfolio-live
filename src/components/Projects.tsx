@@ -42,7 +42,7 @@ export default function Projects({
           />
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="swipe-row mt-12 sm:grid sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((p, i) => (
             <motion.button
               key={p.slug}

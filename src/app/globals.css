@@ -286,6 +286,32 @@ main {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Mobile-only horizontal swipe row. On small screens a card grid becomes a
+   snap-scrolling carousel (cards peek at the edge so it's clearly swipeable);
+   from `sm` up it falls back to the normal grid classes on the element. */
+@media (max-width: 639px) {
+  .swipe-row {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-left: 1.25rem;
+    /* bleed to the screen edges so the last card can scroll fully in */
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+    padding-bottom: 1rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .swipe-row::-webkit-scrollbar { display: none; }
+  .swipe-row > * {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
 /* Skill bar track/fill */
 .skill-track {
   height: 8px;

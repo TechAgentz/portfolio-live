@@ -29,7 +29,7 @@ export default function Team({
           subtitle={heading.subtitle}
         />
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="swipe-row mt-14 sm:grid sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {members.map((m, i) => (
             <motion.article
               key={m.name}
