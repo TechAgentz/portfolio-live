@@ -181,6 +181,45 @@ function ProjectModal({
             ))}
           </div>
 
+          {project.demoVideo && (
+            <div className="mt-7">
+              <h4 className="mono mb-2 text-xs uppercase tracking-widest text-faint">
+                Demo
+              </h4>
+              <video
+                src={project.demoVideo}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full rounded-2xl border border-border bg-black"
+              />
+            </div>
+          )}
+
+          {project.gallery && project.gallery.length > 0 && (
+            <div className="mt-7">
+              <h4 className="mono mb-2 text-xs uppercase tracking-widest text-faint">
+                Gallery
+              </h4>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {project.gallery.map((src, i) => (
+                  <div
+                    key={src + i}
+                    className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface"
+                  >
+                    <Image
+                      src={src}
+                      alt={`${project.title} screenshot ${i + 1}`}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 240px"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-7 space-y-5">
             <div>
               <h4 className="mono text-xs uppercase tracking-widest text-faint">

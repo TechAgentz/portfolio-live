@@ -5,6 +5,8 @@ export type Project = {
   year: string;
   summary: string;
   cover: string;
+  gallery?: string[];
+  demoVideo?: string;
   tags: string[];
   client: string;
   services: string[];

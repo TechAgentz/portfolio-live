@@ -1,6 +1,13 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { ALLOWED, MAX_BYTES, uploadToStorage, uploadsConfigured } from "@/lib/storage";
+import {
+  ALLOWED,
+  ALLOWED_VIDEO,
+  MAX_IMAGE_BYTES,
+  MAX_VIDEO_BYTES,
+  uploadToStorage,
+  uploadsConfigured,
+} from "@/lib/storage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,7 +36,13 @@ export async function POST(req: Request) {
   if (!(file instanceof File)) return json({ error: "No file provided." }, 400);
   if (!ALLOWED.includes(file.type))
     return json({ error: `Unsupported type: ${file.type}` }, 415);
-  if (file.size > MAX_BYTES) return json({ error: "File exceeds 8MB." }, 413);
+  const isVideo = ALLOWED_VIDEO.includes(file.type);
+  const limit = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+  if (file.size > limit)
+    return json(
+      { error: `File exceeds ${Math.round(limit / 1024 / 1024)}MB.` },
+      413
+    );
 
   try {
     const buf = Buffer.from(await file.arrayBuffer());

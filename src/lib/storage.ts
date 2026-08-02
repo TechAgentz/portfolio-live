@@ -6,10 +6,19 @@ const SUPABASE_URL =
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const BUCKET = "media";
 
-export const MAX_BYTES = 8 * 1024 * 1024;
-export const ALLOWED = [
+export const ALLOWED_IMAGE = [
   "image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif", "image/svg+xml",
 ];
+export const ALLOWED_VIDEO = [
+  "video/webm", "video/mp4", "video/quicktime",
+];
+export const ALLOWED = [...ALLOWED_IMAGE, ...ALLOWED_VIDEO];
+
+// Per-type upload ceilings enforced in the API route.
+export const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
+export const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB (videos are compressed client-side)
+// Bucket-level limit must be the larger of the two.
+export const MAX_BYTES = MAX_VIDEO_BYTES;
 
 export function uploadsConfigured() {
   return !!SERVICE_KEY;
@@ -18,17 +27,28 @@ export function uploadsConfigured() {
 let bucketReady = false;
 async function ensureBucket() {
   if (bucketReady) return;
+  const headers = {
+    apikey: SERVICE_KEY as string,
+    Authorization: `Bearer ${SERVICE_KEY}`,
+    "Content-Type": "application/json",
+  };
+  const config = {
+    public: true,
+    file_size_limit: MAX_BYTES,
+    allowed_mime_types: ALLOWED,
+  };
+  // Create if missing…
   await fetch(`${SUPABASE_URL}/storage/v1/bucket`, {
     method: "POST",
-    headers: {
-      apikey: SERVICE_KEY as string,
-      Authorization: `Bearer ${SERVICE_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: BUCKET, name: BUCKET, public: true,
-      file_size_limit: MAX_BYTES, allowed_mime_types: ALLOWED,
-    }),
+    headers,
+    body: JSON.stringify({ id: BUCKET, name: BUCKET, ...config }),
+  }).catch(() => {});
+  // …and update config so an already-existing bucket allows videos + the
+  // larger size limit (create is a no-op once the bucket exists).
+  await fetch(`${SUPABASE_URL}/storage/v1/bucket/${BUCKET}`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(config),
   }).catch(() => {});
   bucketReady = true;
 }
@@ -40,6 +60,9 @@ const EXT: Record<string, string> = {
   "image/jpg": "jpg",
   "image/gif": "gif",
   "image/svg+xml": "svg",
+  "video/webm": "webm",
+  "video/mp4": "mp4",
+  "video/quicktime": "mov",
 };
 
 /**

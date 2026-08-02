@@ -73,6 +73,8 @@ export async function getProjects(): Promise<Project[]> {
       year: p.year,
       summary: p.summary,
       cover: p.cover,
+      gallery: arr<string>(p.gallery),
+      demoVideo: p.demoVideo ?? "",
       tags: arr<string>(p.tags),
       client: p.client,
       services: arr<string>(p.services),

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Field, Textarea, Toggle, Card } from "./ui";
 import { SubmitButton } from "./SubmitButton";
 import { ImageField } from "./ImageField";
+import { GalleryField } from "./GalleryField";
+import { VideoField } from "./VideoField";
 
 function Actions({ cancelHref }: { cancelHref: string }) {
   return (
@@ -50,7 +52,8 @@ export function MemberForm({ record, action }: { record?: MemberRow; action: (fd
 // ---------------- Project ----------------
 type ProjectRow = {
   id?: string; slug?: string; title?: string; category?: string; year?: string;
-  summary?: string; cover?: string; tags?: unknown; client?: string;
+  summary?: string; cover?: string; gallery?: unknown; demoVideo?: string;
+  tags?: unknown; client?: string;
   services?: unknown; challenge?: string; solution?: string; results?: unknown;
   order?: number;
 };
@@ -74,6 +77,14 @@ export function ProjectForm({ record, action }: { record?: ProjectRow; action: (
         </div>
         <Textarea label="Summary" name="summary" defaultValue={record?.summary} rows={2} required />
         <ImageField label="Cover image" name="cover" defaultValue={record?.cover} folder="projects" required />
+        <GalleryField
+          label="Gallery images"
+          name="gallery"
+          defaultValue={Array.isArray(record?.gallery) ? (record!.gallery as string[]) : []}
+          folder="projects"
+          max={4}
+        />
+        <VideoField label="Demo video" name="demoVideo" defaultValue={record?.demoVideo ?? ""} folder="projects" />
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Tags" name="tags" defaultValue={j(record?.tags)} hint="Comma-separated" />
           <Field label="Services" name="services" defaultValue={j(record?.services)} hint="Comma-separated" />

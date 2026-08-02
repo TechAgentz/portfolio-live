@@ -44,6 +44,8 @@ model Project {
   year      String
   summary   String
   cover     String
+  gallery   Json     @default("[]") // string[] extra project image URLs
+  demoVideo String   @default("") // uploaded demo video URL
   tags      Json     @default("[]")
   client    String
   services  Json     @default("[]")

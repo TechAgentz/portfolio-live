@@ -71,6 +71,13 @@ export async function saveProject(fd: FormData) {
     const [value, label] = l.split("|").map((x) => x.trim());
     return { value: value ?? "", label: label ?? "" };
   });
+  let gallery: string[] = [];
+  try {
+    const parsed = JSON.parse(str(fd, "gallery") || "[]");
+    if (Array.isArray(parsed)) gallery = parsed.filter((x) => typeof x === "string");
+  } catch {
+    gallery = [];
+  }
   const data = {
     slug: str(fd, "slug"),
     title: str(fd, "title"),
@@ -78,6 +85,8 @@ export async function saveProject(fd: FormData) {
     year: str(fd, "year"),
     summary: str(fd, "summary"),
     cover: str(fd, "cover"),
+    gallery,
+    demoVideo: str(fd, "demoVideo"),
     tags: csv(str(fd, "tags")),
     client: str(fd, "client"),
     services: csv(str(fd, "services")),

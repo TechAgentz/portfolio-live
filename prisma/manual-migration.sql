@@ -38,3 +38,11 @@ SELECT * FROM (VALUES
   (gen_random_uuid()::text, 'zap', 'Built to scale', 'Architecture decisions made today should still hold at 100× the load. We build for the roadmap, not just the demo.', 3)
 ) AS v("id","icon","title","body","order")
 WHERE NOT EXISTS (SELECT 1 FROM "Value");
+
+-- ============================================================
+-- 5) Project gallery + demo video (added 2026-08-02)
+--    Run this block in Supabase → SQL Editor. Safe to re-run.
+-- ============================================================
+ALTER TABLE "Project"
+  ADD COLUMN IF NOT EXISTS "gallery"   JSONB NOT NULL DEFAULT '[]',
+  ADD COLUMN IF NOT EXISTS "demoVideo" TEXT  NOT NULL DEFAULT '';

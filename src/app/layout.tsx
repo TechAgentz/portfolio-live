@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { site } from "@/data/site";
+import WelcomeIntro from "@/components/WelcomeIntro";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -109,6 +110,7 @@ export default function RootLayout({
         <a href="#top" className="skip-link">
           Skip to content
         </a>
+        <WelcomeIntro />
         {children}
         <Analytics />
         <SpeedInsights />
