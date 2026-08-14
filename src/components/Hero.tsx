@@ -1,11 +1,46 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { site, type SiteSettings } from "@/data/site";
 import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+// Hardcoded hero background image tiles (self-hosted on Supabase).
+const SUPA =
+  "https://bznwnfglwvktivjvfnbj.supabase.co/storage/v1/object/public/media/projects";
+const heroTiles = [
+  {
+    src: `${SUPA}/97d7309d-f5fe-46cc-9129-70c0764a004e.jpg`,
+    pos: "left-[3%] top-[19%] h-24 w-36 sm:h-28 sm:w-44",
+    show: "hidden sm:block",
+    anim: { y: [0, -18, 0], rotate: [-3, 3, -3] },
+    dur: 8,
+  },
+  {
+    src: `${SUPA}/502ea576-63bf-4b0e-8cf5-9ffe935a63be.jpg`,
+    pos: "right-[4%] top-[14%] h-28 w-40 sm:h-32 sm:w-52",
+    show: "",
+    anim: { y: [0, 16, 0], rotate: [3, -2, 3] },
+    dur: 9,
+  },
+  {
+    src: `${SUPA}/a8c0bdb0-3bd6-4acd-929b-470e272ecae3.jpg`,
+    pos: "left-[8%] bottom-[10%] h-24 w-36 sm:h-28 sm:w-44",
+    show: "hidden md:block",
+    anim: { y: [0, 14, 0], rotate: [2, -3, 2] },
+    dur: 10,
+  },
+  {
+    src: `${SUPA}/08e59786-cd3f-4859-a780-bab76bf4cb8b.jpg`,
+    pos: "right-[7%] bottom-[13%] h-24 w-36 sm:h-28 sm:w-44",
+    show: "",
+    anim: { y: [0, -14, 0], rotate: [2, -4, 2] },
+    dur: 8.5,
+  },
+];
 
 export default function Hero({
   settings = site as SiteSettings,
@@ -24,21 +59,34 @@ export default function Hero({
         <div className="blob left-[-8%] top-[-6%] h-80 w-80 bg-accent-bright/40" />
         <div className="blob right-[-6%] top-[8%] h-96 w-96 bg-indigo-400/30" />
         <div className="blob bottom-[-10%] left-[30%] h-80 w-80 bg-sky-300/30" />
-        <motion.div
-          className="absolute right-[12%] top-[26%] h-16 w-16 rounded-2xl border border-accent/20 bg-white/60 shadow-lg backdrop-blur"
-          animate={{ y: [0, -18, 0], rotate: [0, 8, 0] }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute left-[8%] top-[48%] h-12 w-12 rounded-full border border-accent/20 bg-white/60 shadow-lg backdrop-blur"
-          animate={{ y: [0, 16, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-[22%] bottom-[16%] h-10 w-10 rotate-45 rounded-lg border border-accent/20 bg-white/50 backdrop-blur"
-          animate={{ y: [0, -14, 0], rotate: [45, 60, 45] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
+
+        {/* Floating project image tiles */}
+        {heroTiles.map((t, i) => (
+          <motion.div
+            key={i}
+            className={`absolute ${t.pos} ${t.show} overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_24px_60px_-24px_rgba(37,99,235,0.45)] ring-1 ring-slate-900/5`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 0.92, scale: 1, ...t.anim }}
+            transition={{
+              opacity: { duration: 0.8, delay: 0.3 + i * 0.12 },
+              scale: { duration: 0.8, delay: 0.3 + i * 0.12 },
+              y: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
+              rotate: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
+            }}
+          >
+            <Image
+              src={t.src}
+              alt=""
+              fill
+              sizes="220px"
+              className="object-cover"
+            />
+            <span className="absolute inset-0 bg-gradient-to-t from-slate-900/25 to-transparent" />
+          </motion.div>
+        ))}
+
+        {/* Soft glow behind the headline to keep text crisp */}
+        <div className="absolute left-1/2 top-[38%] h-64 w-[36rem] max-w-[90vw] -translate-x-1/2 rounded-full bg-background/60 blur-3xl" />
       </div>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
