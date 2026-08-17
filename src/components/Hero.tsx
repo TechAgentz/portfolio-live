@@ -76,8 +76,8 @@ export default function Hero({
                 className="object-cover"
               />
             </motion.div>
-            {/* Legibility wash — image shows through, text stays readable */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/55 to-background" />
+            {/* Legibility wash — lighter so the image shows through more */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/45 via-background/15 to-background" />
           </>
         ) : (
           <>
