@@ -6,9 +6,9 @@
    typography, soft depth, and smooth micro-interactions.
 ================================================================== */
 :root {
-  --background: #eef2f8;
-  --surface: #e6ecf5;
-  --surface-2: #dde5f0;
+  --background: #e5ebf4;
+  --surface: #dce4ef;
+  --surface-2: #d2dcea;
   --elevated: #ffffff;
 
   --foreground: #0b1220;
