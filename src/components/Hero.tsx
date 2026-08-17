@@ -48,6 +48,7 @@ export default function Hero({
   settings?: SiteSettings;
 }) {
   const headline = settings.headline.split(" ");
+  const onImage = !!settings.heroImage;
   return (
     <section
       id="top"
@@ -76,8 +77,10 @@ export default function Hero({
                 className="object-cover"
               />
             </motion.div>
-            {/* Legibility wash — lighter so the image shows through more */}
-            <div className="absolute inset-0 bg-gradient-to-b from-background/45 via-background/15 to-background" />
+            {/* Dark overlay for a bright, readable image hero (white text) */}
+            <div className="absolute inset-0 bg-slate-950/45" />
+            {/* Blend the bottom into the page background */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-background" />
           </>
         ) : (
           <>
@@ -113,8 +116,10 @@ export default function Hero({
           </>
         )}
 
-        {/* Soft glow behind the headline to keep text crisp */}
-        <div className="absolute left-1/2 top-[38%] h-64 w-[36rem] max-w-[90vw] -translate-x-1/2 rounded-full bg-background/60 blur-3xl" />
+        {/* Soft glow behind the headline (only when there's no image) */}
+        {!onImage && (
+          <div className="absolute left-1/2 top-[38%] h-64 w-[36rem] max-w-[90vw] -translate-x-1/2 rounded-full bg-background/60 blur-3xl" />
+        )}
       </div>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -122,15 +127,21 @@ export default function Hero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE }}
-          className="mx-auto mb-7 flex w-fit items-center gap-2 rounded-full border border-border bg-white/70 py-1.5 pl-1.5 pr-4 text-sm shadow-sm backdrop-blur"
+          className={`mx-auto mb-7 flex w-fit items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-4 text-sm shadow-sm backdrop-blur ${
+            onImage ? "border-white/25 bg-white/15" : "border-border bg-white/70"
+          }`}
         >
           <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-white">
             New
           </span>
-          <span className="text-muted">{settings.heroBadge}</span>
+          <span className={onImage ? "text-white/90" : "text-muted"}>{settings.heroBadge}</span>
         </motion.div>
 
-        <h1 className="mx-auto max-w-4xl text-center font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.4rem]">
+        <h1
+          className={`mx-auto max-w-4xl text-center font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4.4rem] ${
+            onImage ? "text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.35)]" : ""
+          }`}
+        >
           {headline.map((word, i) => (
             <span key={i} className="inline-block overflow-hidden pb-1 align-top">
               <motion.span
@@ -153,7 +164,9 @@ export default function Hero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
-          className="mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed text-muted"
+          className={`mx-auto mt-6 max-w-2xl text-center text-lg leading-relaxed ${
+            onImage ? "text-white/90 [text-shadow:0_1px_16px_rgba(0,0,0,0.35)]" : "text-muted"
+          }`}
         >
           {settings.intro}
         </motion.p>
@@ -170,7 +183,14 @@ export default function Hero({
           <Link href="/#work" className="btn btn-ghost">
             View Our Work
           </Link>
-          <Link href="/#contact" className="btn btn-outline">
+          <Link
+            href="/#contact"
+            className={
+              onImage
+                ? "btn border border-white/40 bg-white/10 text-white backdrop-blur hover:bg-white/20"
+                : "btn btn-outline"
+            }
+          >
             Let&apos;s Talk
           </Link>
         </motion.div>
