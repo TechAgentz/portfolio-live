@@ -79,8 +79,6 @@ export default function Hero({
             </motion.div>
             {/* Dark overlay for a bright, readable image hero (white text) */}
             <div className="absolute inset-0 bg-slate-950/30" />
-            {/* Blend the bottom into the page background */}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-background" />
           </>
         ) : (
           <>
