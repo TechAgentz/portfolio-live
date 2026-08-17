@@ -15,6 +15,7 @@ export const site = {
   heroBadge: "Available for Q3 partnerships · Remote-first",
   mission:
     "To help ambitious teams turn bold ideas into products that feel effortless — and stay fast, reliable, and delightful as they grow.",
+  heroImage: "",
 };
 
 export type Stat = { value: number; suffix: string; label: string };

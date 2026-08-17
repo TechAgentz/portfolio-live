@@ -277,6 +277,7 @@ export async function saveSettings(fd: FormData) {
     stats,
     heroBadge: str(fd, "heroBadge"),
     mission: str(fd, "mission"),
+    heroImage: str(fd, "heroImage"),
     techStack: csv(str(fd, "techStack")),
   };
   await prisma.setting.upsert({

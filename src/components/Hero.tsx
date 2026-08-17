@@ -55,35 +55,63 @@ export default function Hero({
     >
       {/* Decorative background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 grid-bg" />
-        <div className="blob left-[-8%] top-[-6%] h-80 w-80 bg-accent-bright/40" />
-        <div className="blob right-[-6%] top-[8%] h-96 w-96 bg-indigo-400/30" />
-        <div className="blob bottom-[-10%] left-[30%] h-80 w-80 bg-sky-300/30" />
+        {settings.heroImage ? (
+          <>
+            {/* Full hero background image with a slow Ken Burns zoom */}
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.14 }}
+              animate={{ opacity: 1, scale: [1.06, 1.14, 1.06] }}
+              transition={{
+                opacity: { duration: 1.2, ease: "easeOut" },
+                scale: { duration: 22, repeat: Infinity, ease: "easeInOut" },
+              }}
+            >
+              <Image
+                src={settings.heroImage}
+                alt=""
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+            </motion.div>
+            {/* Legibility wash — image shows through, text stays readable */}
+            <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/55 to-background" />
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-0 grid-bg" />
+            <div className="blob left-[-8%] top-[-6%] h-80 w-80 bg-accent-bright/40" />
+            <div className="blob right-[-6%] top-[8%] h-96 w-96 bg-indigo-400/30" />
+            <div className="blob bottom-[-10%] left-[30%] h-80 w-80 bg-sky-300/30" />
 
-        {/* Floating project image tiles */}
-        {heroTiles.map((t, i) => (
-          <motion.div
-            key={i}
-            className={`absolute ${t.pos} ${t.show} overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_24px_60px_-24px_rgba(37,99,235,0.45)] ring-1 ring-slate-900/5`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 0.92, scale: 1, ...t.anim }}
-            transition={{
-              opacity: { duration: 0.8, delay: 0.3 + i * 0.12 },
-              scale: { duration: 0.8, delay: 0.3 + i * 0.12 },
-              y: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
-              rotate: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
-            }}
-          >
-            <Image
-              src={t.src}
-              alt=""
-              fill
-              sizes="220px"
-              className="object-cover"
-            />
-            <span className="absolute inset-0 bg-gradient-to-t from-slate-900/25 to-transparent" />
-          </motion.div>
-        ))}
+            {/* Floating project image tiles */}
+            {heroTiles.map((t, i) => (
+              <motion.div
+                key={i}
+                className={`absolute ${t.pos} ${t.show} overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_24px_60px_-24px_rgba(37,99,235,0.45)] ring-1 ring-slate-900/5`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 0.92, scale: 1, ...t.anim }}
+                transition={{
+                  opacity: { duration: 0.8, delay: 0.3 + i * 0.12 },
+                  scale: { duration: 0.8, delay: 0.3 + i * 0.12 },
+                  y: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
+                  rotate: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
+                }}
+              >
+                <Image
+                  src={t.src}
+                  alt=""
+                  fill
+                  sizes="220px"
+                  className="object-cover"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-slate-900/25 to-transparent" />
+              </motion.div>
+            ))}
+          </>
+        )}
 
         {/* Soft glow behind the headline to keep text crisp */}
         <div className="absolute left-1/2 top-[38%] h-64 w-[36rem] max-w-[90vw] -translate-x-1/2 rounded-full bg-background/60 blur-3xl" />

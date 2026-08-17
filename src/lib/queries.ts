@@ -220,6 +220,7 @@ export async function getSettings(): Promise<SettingsView> {
       stats: arr<Stat>(s.stats, staticStats),
       heroBadge: s.heroBadge || staticSite.heroBadge,
       mission: s.mission || staticSite.mission,
+      heroImage: s.heroImage ?? "",
       techStack: techStack.length ? techStack : staticTechStack,
     };
   }, staticSettings);

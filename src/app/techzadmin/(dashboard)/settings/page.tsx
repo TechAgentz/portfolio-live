@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { site, stats } from "@/data/site";
 import { techStack } from "@/data/expertise";
 import { PageHeader, Field, Textarea, Card } from "../../_components/ui";
+import { ImageField } from "../../_components/ImageField";
 import { SubmitButton } from "../../_components/SubmitButton";
 import { saveSettings } from "../../actions";
 
@@ -12,7 +13,7 @@ export default async function SettingsPage() {
     name: string; brandMark: string; tagline: string; headline: string;
     intro: string; email: string; phone: string; location: string;
     linkedin: string; github: string; twitter: string; calendly: string;
-    stats: unknown; heroBadge: string; mission: string; techStack: unknown;
+    stats: unknown; heroBadge: string; mission: string; heroImage: string; techStack: unknown;
   } | null = null;
   try {
     s = await prisma.setting.findUnique({ where: { id: "default" } });
@@ -44,6 +45,13 @@ export default async function SettingsPage() {
           <Textarea label="Hero headline" name="headline" defaultValue={v.headline} rows={2} hint="Words 'Exceptional' and 'Digital' get the gradient highlight." />
           <Textarea label="Hero intro" name="intro" defaultValue={v.intro} rows={3} />
           <Field label="Hero badge" name="heroBadge" defaultValue={v.heroBadge} hint="The pill text above the headline." />
+          <ImageField
+            label="Hero background image"
+            name="heroImage"
+            defaultValue={v.heroImage}
+            folder="hero"
+            aspect="aspect-[16/9]"
+          />
           <Textarea label="Mission statement" name="mission" defaultValue={v.mission} rows={2} hint="Shown in the About section." />
           <Textarea label="Tech stack" name="techStack" defaultValue={techText} rows={2} hint="Comma-separated — powers the hero marquee." />
 

@@ -46,3 +46,9 @@ WHERE NOT EXISTS (SELECT 1 FROM "Value");
 ALTER TABLE "Project"
   ADD COLUMN IF NOT EXISTS "gallery"   JSONB NOT NULL DEFAULT '[]',
   ADD COLUMN IF NOT EXISTS "demoVideo" TEXT  NOT NULL DEFAULT '';
+
+-- ============================================================
+-- 6) Hero background image (added 2026-08-02). Safe to re-run.
+-- ============================================================
+ALTER TABLE "Setting"
+  ADD COLUMN IF NOT EXISTS "heroImage" TEXT NOT NULL DEFAULT '';
