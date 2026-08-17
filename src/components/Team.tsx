@@ -41,13 +41,32 @@ export default function Team({
               className="card group relative overflow-hidden p-5 transition-shadow duration-400 hover:shadow-[0_30px_70px_-30px_rgba(37,99,235,0.4)]"
             >
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-surface-2">
-                <Image
-                  src={m.photo}
-                  alt={m.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+                {m.photo ? (
+                  <Image
+                    src={m.photo}
+                    alt={m.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="grid h-full w-full place-items-center bg-gradient-to-br from-surface-2 to-accent-soft text-accent/60">
+                    <svg
+                      width="72"
+                      height="72"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100" />
 
                 {/* Social icons reveal */}
@@ -78,13 +97,6 @@ export default function Team({
                 <p className="mt-3 text-sm leading-relaxed text-muted">
                   {m.bio}
                 </p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {m.skills.map((s) => (
-                    <span key={s} className="tag">
-                      {s}
-                    </span>
-                  ))}
-                </div>
               </div>
             </motion.article>
           ))}

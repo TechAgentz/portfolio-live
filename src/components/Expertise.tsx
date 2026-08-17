@@ -51,33 +51,31 @@ export default function Expertise({
                   </h3>
                 </div>
 
-                <div className="space-y-4">
-                  {group.skills.map((skill, si) => (
-                    <div key={skill.name}>
-                      <div className="mb-1.5 flex items-center justify-between text-sm">
-                        <span className="font-medium text-foreground">
-                          {skill.name}
-                        </span>
-                        <span className="mono text-xs text-faint">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div className="skill-track">
-                        <motion.div
-                          className="skill-fill"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          viewport={{ once: true, amount: 0.8 }}
-                          transition={{
-                            duration: 1.1,
-                            delay: 0.2 + si * 0.12,
-                            ease: EASE,
-                          }}
-                        />
-                      </div>
-                    </div>
+                <ul className="space-y-3">
+                  {group.skills.map((skill) => (
+                    <li
+                      key={skill.name}
+                      className="flex items-center gap-3 text-sm font-medium text-foreground"
+                    >
+                      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                        >
+                          <path d="M5 12l5 5L20 7" />
+                        </svg>
+                      </span>
+                      {skill.name}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </motion.div>
             );
           })}

@@ -146,25 +146,6 @@ export default function Hero({
             Let&apos;s Talk
           </Link>
         </motion.div>
-
-        {/* Tech marquee */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="relative mt-16 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
-        >
-          <div className="flex w-max marquee gap-3">
-            {[...settings.techStack, ...settings.techStack].map((t, i) => (
-              <span
-                key={i}
-                className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-muted shadow-sm"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
