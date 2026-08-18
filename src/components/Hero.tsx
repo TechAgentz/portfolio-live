@@ -52,7 +52,11 @@ export default function Hero({
   return (
     <section
       id="top"
-      className="relative overflow-hidden pt-32 pb-14 sm:pt-40 sm:pb-20"
+      className={`relative overflow-hidden ${
+        onImage
+          ? "flex min-h-[100svh] items-center pt-28 pb-20"
+          : "pt-32 pb-14 sm:pt-40 sm:pb-20"
+      }`}
     >
       {/* Decorative background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -120,7 +124,7 @@ export default function Hero({
         )}
       </div>
 
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

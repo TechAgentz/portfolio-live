@@ -21,7 +21,7 @@ export default async function DashboardLayout({
       <Toaster />
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 lg:px-6">
         {/* Sidebar (dark, high-contrast) */}
-        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-60 shrink-0 flex-col rounded-2xl bg-slate-900 p-4 text-slate-300 shadow-xl ring-1 ring-black/5 lg:flex">
+        <aside className="sticky top-6 hidden h-[calc(100vh-3rem)] w-60 shrink-0 flex-col self-start rounded-2xl bg-slate-900 p-4 text-slate-300 shadow-xl ring-1 ring-black/5 lg:flex">
           <Link href="/techzadmin" className="mb-6 flex items-center gap-2.5 px-1">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.9)]">
               TA
