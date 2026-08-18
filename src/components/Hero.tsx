@@ -8,40 +8,6 @@ import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Hardcoded hero background image tiles (self-hosted on Supabase).
-const SUPA =
-  "https://bznwnfglwvktivjvfnbj.supabase.co/storage/v1/object/public/media/projects";
-const heroTiles = [
-  {
-    src: `${SUPA}/97d7309d-f5fe-46cc-9129-70c0764a004e.jpg`,
-    pos: "left-[3%] top-[19%] h-24 w-36 sm:h-28 sm:w-44",
-    show: "hidden sm:block",
-    anim: { y: [0, -18, 0], rotate: [-3, 3, -3] },
-    dur: 8,
-  },
-  {
-    src: `${SUPA}/502ea576-63bf-4b0e-8cf5-9ffe935a63be.jpg`,
-    pos: "right-[4%] top-[14%] h-28 w-40 sm:h-32 sm:w-52",
-    show: "",
-    anim: { y: [0, 16, 0], rotate: [3, -2, 3] },
-    dur: 9,
-  },
-  {
-    src: `${SUPA}/a8c0bdb0-3bd6-4acd-929b-470e272ecae3.jpg`,
-    pos: "left-[8%] bottom-[10%] h-24 w-36 sm:h-28 sm:w-44",
-    show: "hidden md:block",
-    anim: { y: [0, 14, 0], rotate: [2, -3, 2] },
-    dur: 10,
-  },
-  {
-    src: `${SUPA}/08e59786-cd3f-4859-a780-bab76bf4cb8b.jpg`,
-    pos: "right-[7%] bottom-[13%] h-24 w-36 sm:h-28 sm:w-44",
-    show: "",
-    anim: { y: [0, -14, 0], rotate: [2, -4, 2] },
-    dur: 8.5,
-  },
-];
-
 export default function Hero({
   settings = site as SiteSettings,
 }: {
@@ -90,31 +56,6 @@ export default function Hero({
             <div className="blob left-[-8%] top-[-6%] h-80 w-80 bg-accent-bright/40" />
             <div className="blob right-[-6%] top-[8%] h-96 w-96 bg-indigo-400/30" />
             <div className="blob bottom-[-10%] left-[30%] h-80 w-80 bg-sky-300/30" />
-
-            {/* Floating project image tiles */}
-            {heroTiles.map((t, i) => (
-              <motion.div
-                key={i}
-                className={`absolute ${t.pos} ${t.show} overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_24px_60px_-24px_rgba(37,99,235,0.45)] ring-1 ring-slate-900/5`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 0.92, scale: 1, ...t.anim }}
-                transition={{
-                  opacity: { duration: 0.8, delay: 0.3 + i * 0.12 },
-                  scale: { duration: 0.8, delay: 0.3 + i * 0.12 },
-                  y: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
-                  rotate: { duration: t.dur, repeat: Infinity, ease: "easeInOut" },
-                }}
-              >
-                <Image
-                  src={t.src}
-                  alt=""
-                  fill
-                  sizes="220px"
-                  className="object-cover"
-                />
-                <span className="absolute inset-0 bg-gradient-to-t from-slate-900/25 to-transparent" />
-              </motion.div>
-            ))}
           </>
         )}
 

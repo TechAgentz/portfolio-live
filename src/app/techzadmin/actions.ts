@@ -277,6 +277,7 @@ export async function saveSettings(fd: FormData) {
     stats,
     heroBadge: str(fd, "heroBadge"),
     mission: str(fd, "mission"),
+    aboutText: str(fd, "aboutText"),
     heroImage: str(fd, "heroImage"),
     techStack: csv(str(fd, "techStack")),
   };

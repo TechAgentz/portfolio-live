@@ -51,12 +51,11 @@ export default function About({
               <p className="mt-5 font-display text-2xl font-semibold leading-snug tracking-tight sm:text-[1.7rem]">
                 {settings.mission}
               </p>
-              <p className="mt-5 leading-relaxed text-muted">
-                {settings.name} was founded on a simple belief: great software comes
-                from small teams of people who deeply care. We keep our team
-                lean and senior so every line of code and every pixel earns its
-                place.
-              </p>
+              {settings.aboutText && (
+                <p className="mt-5 leading-relaxed text-muted">
+                  {settings.aboutText}
+                </p>
+              )}
             </div>
           </Reveal>
 

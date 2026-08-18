@@ -30,6 +30,7 @@ export default function Testimonials({
     return () => clearInterval(id);
   }, [paginate]);
 
+  if (!items.length) return null;
   const t = items[index];
 
   return (

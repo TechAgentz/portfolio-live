@@ -140,6 +140,7 @@ model Setting {
   stats     Json     @default("[]") // [{ value, suffix, label }]
   heroBadge String   @default("")
   mission   String   @default("")
+  aboutText String   @default("") // About-section paragraph under the mission
   heroImage String   @default("") // full hero background image URL
   techStack Json     @default("[]") // string[]
   updatedAt DateTime @updatedAt

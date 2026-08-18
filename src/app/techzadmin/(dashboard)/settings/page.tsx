@@ -13,7 +13,7 @@ export default async function SettingsPage() {
     name: string; brandMark: string; tagline: string; headline: string;
     intro: string; email: string; phone: string; location: string;
     linkedin: string; github: string; twitter: string; calendly: string;
-    stats: unknown; heroBadge: string; mission: string; heroImage: string; techStack: unknown;
+    stats: unknown; heroBadge: string; mission: string; aboutText: string; heroImage: string; techStack: unknown;
   } | null = null;
   try {
     s = await prisma.setting.findUnique({ where: { id: "default" } });
@@ -53,6 +53,7 @@ export default async function SettingsPage() {
             aspect="aspect-[16/9]"
           />
           <Textarea label="Mission statement" name="mission" defaultValue={v.mission} rows={2} hint="Shown in the About section." />
+          <Textarea label="About paragraph" name="aboutText" defaultValue={v.aboutText} rows={3} hint="The supporting paragraph under the mission in the About section." />
           <Textarea label="Tech stack" name="techStack" defaultValue={techText} rows={2} hint="Comma-separated — powers the hero marquee." />
 
           <div className="border-t border-slate-200 pt-4">

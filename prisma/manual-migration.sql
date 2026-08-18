@@ -52,3 +52,13 @@ ALTER TABLE "Project"
 -- ============================================================
 ALTER TABLE "Setting"
   ADD COLUMN IF NOT EXISTS "heroImage" TEXT NOT NULL DEFAULT '';
+
+-- ============================================================
+-- 7) About paragraph editable (added 2026-08-02). Safe to re-run.
+-- ============================================================
+ALTER TABLE "Setting"
+  ADD COLUMN IF NOT EXISTS "aboutText" TEXT NOT NULL DEFAULT '';
+
+UPDATE "Setting" SET "aboutText" =
+  'We were founded on a simple belief: great software comes from small teams of people who deeply care. We keep our team lean and senior so every detail earns its place.'
+WHERE "id" = 'default' AND ("aboutText" IS NULL OR "aboutText" = '');
