@@ -55,7 +55,11 @@ export default function Navbar({
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.8)] transition-transform duration-300 group-hover:scale-105">
             {settings.brandMark}
           </span>
-          <span className="font-display text-lg font-bold tracking-tight">
+          <span
+            className={`font-display text-lg font-bold tracking-tight transition-colors ${
+              scrolled ? "text-foreground" : "text-white"
+            }`}
+          >
             {settings.name}
           </span>
         </Link>
@@ -65,7 +69,11 @@ export default function Navbar({
             <Link
               key={l.href}
               href={l.href}
-              className="relative rounded-full px-3.5 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground"
+              className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                scrolled
+                  ? "text-muted hover:text-foreground"
+                  : "text-white/80 hover:text-white"
+              }`}
             >
               {l.label}
             </Link>
