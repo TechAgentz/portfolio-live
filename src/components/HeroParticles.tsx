@@ -1,14 +1,14 @@
 "use client";
 
 // Hero background: "Semiconductor Bottleneck" particle swarm.
-// Adapted from the user-provided React-Three-Fiber sketch. Changes for use as
-// a hero background: no OrbitControls (canvas is non-interactive so the hero
-// buttons stay clickable — the swarm auto-rotates itself), responsive particle
-// count, and bloom via @react-three/postprocessing (the supported API).
+// Adapted from the user-provided React-Three-Fiber sketch. For use as a hero
+// background: no OrbitControls (canvas is non-interactive so the hero buttons
+// stay clickable — the swarm auto-rotates itself), responsive particle count,
+// and glow via additive blending (no postprocessing dependency, which kept the
+// scene robust across three versions).
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
 const PARAMS = { speed: 0.1, baseRadius: 80, chokeWidth: 25, compression: 0.95 };
@@ -34,9 +34,17 @@ function Swarm({ count }: { count: number }) {
     return pos;
   }, [count]);
 
-  const geometry = useMemo(() => new THREE.TetrahedronGeometry(0.25), []);
+  const geometry = useMemo(() => new THREE.TetrahedronGeometry(0.35), []);
   const material = useMemo(
-    () => new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false }),
+    () =>
+      new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        toneMapped: false,
+        transparent: true,
+        opacity: 0.95,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
     []
   );
 
@@ -70,7 +78,7 @@ function Swarm({ count }: { count: number }) {
       target.set(x, y, z);
 
       const hue = 0.6 - 0.6 * pinch;
-      const lightness = 0.4 + 0.4 * pinch;
+      const lightness = 0.45 + 0.35 * pinch;
       pColor.setHSL(hue, 1.0, lightness);
 
       positions[i].lerp(target, 0.1);
@@ -95,7 +103,7 @@ export default function HeroParticles() {
   const count = useMemo(() => {
     if (typeof window === "undefined") return 9000;
     const w = window.innerWidth;
-    return w < 640 ? 5000 : w < 1024 ? 9000 : 16000;
+    return w < 640 ? 6000 : w < 1024 ? 10000 : 18000;
   }, []);
 
   return (
@@ -106,17 +114,8 @@ export default function HeroParticles() {
       style={{ position: "absolute", inset: 0 }}
     >
       <color attach="background" args={["#020617"]} />
-      <fogExp2 attach="fog" args={["#020617", 0.006]} />
+      <fogExp2 attach="fog" args={["#020617", 0.005]} />
       <Swarm count={count} />
-      <EffectComposer>
-        <Bloom
-          intensity={1.2}
-          luminanceThreshold={0}
-          luminanceSmoothing={0.9}
-          radius={0.6}
-          mipmapBlur
-        />
-      </EffectComposer>
     </Canvas>
   );
 }
