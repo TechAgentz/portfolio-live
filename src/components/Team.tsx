@@ -22,7 +22,7 @@ export default function Team({
           subtitle={heading.subtitle}
         />
 
-        <div className="mt-12">
+        <div className="mt-12 -mx-5 sm:mx-0">
           <TeamCoverflow members={members} />
         </div>
       </div>
