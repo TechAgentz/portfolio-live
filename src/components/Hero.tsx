@@ -21,19 +21,19 @@ export default function Hero({
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden bg-slate-950 pt-28 pb-20"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-slate-950 pt-28 pb-20"
     >
-      {/* Animated particle background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      {/* Animated particle background (z-0 — above the section bg, below text) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <HeroParticles />
         {/* Legibility wash + vignette over the particles */}
-        <div className="absolute inset-0 bg-slate-950/35" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(2,6,23,0.6)_100%)]" />
+        <div className="absolute inset-0 bg-slate-950/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.55)_100%)]" />
         {/* Blend the bottom into the page background */}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background" />
       </div>
 
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
