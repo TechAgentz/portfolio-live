@@ -29,8 +29,6 @@ export default function Hero({
         {/* Legibility wash + vignette over the particles */}
         <div className="absolute inset-0 bg-slate-950/20" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.55)_100%)]" />
-        {/* Blend the bottom into the page background */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
