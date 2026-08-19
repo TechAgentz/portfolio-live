@@ -27,7 +27,8 @@ export default function Hero({
           bg, below text): the orb's centre sits at the hero's bottom edge so
           only its top half is visible, rising from the fold. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 h-[120vh] w-[120vh] -translate-x-1/2 translate-y-1/2">
+        {/* Mobile: full orb centered in the hero. sm+: bottom hemisphere. */}
+        <div className="absolute left-1/2 top-1/2 h-[130vw] w-[130vw] -translate-x-1/2 -translate-y-1/2 sm:top-auto sm:bottom-0 sm:h-[120vh] sm:w-[120vh] sm:translate-y-1/2">
           <HeroParticles />
         </div>
         {/* Legibility wash so the white text stays readable */}
