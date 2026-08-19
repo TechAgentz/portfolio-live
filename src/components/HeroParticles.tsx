@@ -6,7 +6,7 @@
 // events pass through so the hero buttons stay clickable), responsive particle
 // count, additive-blend glow (no postprocessing dependency).
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -130,23 +130,52 @@ function Swarm({ count }: { count: number }) {
 }
 
 export default function HeroParticles() {
-  // Scale particle count to the device so phones stay smooth.
+  // Scale particle count to the device so phones stay smooth. Kept modest —
+  // the per-frame JS loop over every particle is the main CPU cost.
   const count = useMemo(() => {
-    if (typeof window === "undefined") return 12000;
+    if (typeof window === "undefined") return 6000;
     const w = window.innerWidth;
-    return w < 640 ? 7000 : w < 1024 ? 12000 : 20000;
+    return w < 640 ? 4000 : w < 1024 ? 6000 : 9000;
+  }, []);
+
+  // Pause the whole render loop when the hero is off-screen or the tab is
+  // hidden — otherwise the swarm keeps burning CPU while the user reads the
+  // rest of the page.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(true);
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    let onScreen = true;
+    const sync = () => setActive(onScreen && !document.hidden);
+    const io = new IntersectionObserver(
+      (entries) => {
+        onScreen = entries[0]?.isIntersecting ?? true;
+        sync();
+      },
+      { threshold: 0 }
+    );
+    io.observe(el);
+    document.addEventListener("visibilitychange", sync);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+    };
   }, []);
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 100], fov: 60 }}
-      dpr={[1, 1.5]}
-      gl={{ antialias: false, powerPreference: "high-performance" }}
-      style={{ position: "absolute", inset: 0 }}
-    >
-      <color attach="background" args={["#000000"]} />
-      <fogExp2 attach="fog" args={["#000000", 0.006]} />
-      <Swarm count={count} />
-    </Canvas>
+    <div ref={wrapRef} style={{ position: "absolute", inset: 0 }}>
+      <Canvas
+        camera={{ position: [0, 0, 100], fov: 60 }}
+        dpr={1}
+        frameloop={active ? "always" : "never"}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <color attach="background" args={["#000000"]} />
+        <fogExp2 attach="fog" args={["#000000", 0.006]} />
+        <Swarm count={count} />
+      </Canvas>
+    </div>
   );
 }

@@ -62,9 +62,11 @@ const COLOR_SPEED = 0.125;
 const VELOCITY_DISSIPATION = 2;
 // Pressure pinned to 1 on the old ÷20 mapping.
 const PRESSURE = 1 / 20;
-const SIM_RESOLUTION = 128;
-const DYE_RESOLUTION = 1440;
-const PRESSURE_ITERATIONS = 20;
+// Lowered from 128 / 1440 / 20 — the 1440p dye texture made the fluid pass
+// the single heaviest GPU cost on the page.
+const SIM_RESOLUTION = 96;
+const DYE_RESOLUTION = 720;
+const PRESSURE_ITERATIONS = 12;
 
 const DEFAULT_PALETTE = ["#A855F7", "#EC4899", "#3B82F6"];
 
