@@ -8,19 +8,9 @@ import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// 3D globe — client-only (Three.js can't SSR) and code-split so it never
-// blocks the initial page load.
-const HeroGlobe = dynamic(() => import("./Globe"), { ssr: false });
-
-// Stable object props — defined at module scope so their references never
-// change between renders. Passing fresh {} literals re-runs the globe's effect
-// (full teardown + data refetch) on every render, which caused the lag.
-const GLOBE_DOTS = { color: "#ffffff", size: 5, density: 8, allDots: false };
-const GLOBE_MARKERS = {
-  markers: [] as { lat: number; lng: number }[],
-  color: "#00f7ff",
-  size: 40,
-};
+// 3D particle scene — client-only (Three.js can't SSR) and code-split so it
+// never blocks the initial page load.
+const HeroParticles = dynamic(() => import("./HeroParticles"), { ssr: false });
 
 export default function Hero({
   settings = site as SiteSettings,
@@ -31,24 +21,14 @@ export default function Hero({
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[100svh] items-start overflow-hidden bg-slate-950 pt-32 pb-20"
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-slate-950 pt-28 pb-20"
     >
-      {/* Rotating globe background (z-0 — above the section bg, below text).
-          Positioned as a large hemisphere at the bottom: the globe's centre is
-          at the hero's bottom edge, so only its top half is visible. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 h-[130vh] w-[130vh] -translate-x-1/2 translate-y-1/2">
-          <HeroGlobe
-            scale={10}
-            detail={4}
-            stopOnHover={false}
-            initialLatitude={25}
-            dots={GLOBE_DOTS}
-            markerConfig={GLOBE_MARKERS}
-          />
-        </div>
-        {/* Legibility wash so the white text stays readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/55 via-transparent to-slate-950/30" />
+      {/* Animated particle orb (z-0 — above the section bg, below text) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        <HeroParticles />
+        {/* Legibility wash + vignette so the white text stays readable */}
+        <div className="absolute inset-0 bg-slate-950/25" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.55)_100%)]" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">

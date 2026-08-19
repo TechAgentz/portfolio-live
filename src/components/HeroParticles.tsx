@@ -1,17 +1,17 @@
 "use client";
 
-// Hero background: "Arc Reactor" — a holographic amber energy core (fibonacci
-// sphere with a wavy surface, compressed glowing centre, slow spin). Ported
-// from the user-provided Three.js sketch into R3F. Non-interactive canvas
-// (pointer events pass through so the hero buttons stay clickable — it
-// auto-rotates itself), responsive particle count, additive-blend glow (no
-// postprocessing dependency, robust across three versions).
+// Hero background: "Glass Orb" — an iridescent breathing sphere with internal
+// curl-flow energy ribbons (cyan -> violet -> magenta). Ported from the
+// user-provided Three.js sketch into R3F. Non-interactive canvas (pointer
+// events pass through so the hero buttons stay clickable), responsive particle
+// count, additive-blend glow (no postprocessing dependency).
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const PARAMS = { scale: 55, rotation: 0.8, chaos: 0.7 };
+const PARAMS = { radius: 39, flow: 3, turb: 1, shell: 0.7, hueShift: 1 };
+const GOLDEN = 2.399963229728653;
 
 function Swarm({ count }: { count: number }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
@@ -53,43 +53,64 @@ function Swarm({ count }: { count: number }) {
     if (!mesh) return;
     const time = state.clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.x = 0.25;
-      groupRef.current.rotation.y = time * 0.05;
+      groupRef.current.rotation.x = 0.12;
+      groupRef.current.rotation.y = time * 0.04;
     }
 
-    const { scale, rotation, chaos } = PARAMS;
-    const golden = 2.3999632297;
+    const { radius, flow, turb, shell, hueShift } = PARAMS;
+    const t = time * flow;
 
     for (let i = 0; i < count; i++) {
-      const u = i / count;
-      const theta = i * golden;
-      const yy = 1 - 2 * u;
-      const rr = Math.sqrt(Math.max(0, 1 - yy * yy));
-      const x = rr * Math.cos(theta);
-      const z = rr * Math.sin(theta);
+      const frac = (i + 0.5) / count;
+      const y0 = 1.0 - 2.0 * frac;
+      const r0 = Math.sqrt(Math.max(0.0, 1.0 - y0 * y0));
+      const th = GOLDEN * i;
 
-      const t = time * rotation;
-      const wave = Math.sin(theta * 9 + time * 3 + yy * 12) * chaos;
-      const outer = scale * (1 + wave * 0.045);
+      const x = r0 * Math.cos(th);
+      const y = y0;
+      const z = r0 * Math.sin(th);
 
-      let px = x * outer;
-      const py = yy * outer;
-      let pz = z * outer;
+      const w1 =
+        Math.sin(3.0 * x + t * 1.7 + Math.cos(2.0 * z - t)) *
+        Math.cos(2.0 * y - t * 1.3);
+      const w2 =
+        Math.sin(4.0 * z - t * 1.1 + Math.cos(3.0 * x + t * 0.7)) *
+        Math.cos(3.0 * y + t);
+      const w3 =
+        Math.sin(2.0 * y + t * 2.1 + Math.cos(4.0 * x - t * 0.5)) *
+        Math.cos(2.0 * z + t * 0.9);
 
-      const core = Math.exp(-u * 18);
-      const shrink = 1 - core * 0.35;
-      px *= shrink;
-      pz *= shrink;
+      const breath =
+        1.0 + 0.06 * Math.sin(t * 1.2) + 0.03 * Math.sin(t * 2.7 + 1.3);
 
-      const ca = Math.cos(t * 0.7);
-      const sa = Math.sin(t * 0.7);
-      const rx = px * ca - pz * sa;
-      const rz = px * sa + pz * ca;
+      const band = 0.5 + 0.5 * Math.sin(frac * 6.28318 * 3.0 + t * 0.6);
+      const shellMix = band * shell;
+      const rMod = breath * (1.0 - shellMix * (0.55 + 0.35 * Math.sin(th * 0.5 + t)));
+      const dist = turb * 0.22;
 
-      target.set(rx, py * shrink, rz);
+      const rotA = t * 0.25;
+      const cA = Math.cos(rotA);
+      const sA = Math.sin(rotA);
+      const xr = x * cA - z * sA;
+      const zr = x * sA + z * cA;
 
-      const pulse = 0.5 + 0.5 * Math.sin(time * 4 + theta * 3);
-      col.setHSL(0.07 + pulse * 0.025, 1.0, 0.38 + pulse * 0.22);
+      const px = (xr + w1 * dist) * radius * rMod;
+      const py = (y + w2 * dist * 1.15) * radius * rMod;
+      const pz = (zr + w3 * dist) * radius * rMod;
+
+      target.set(px, py, pz);
+
+      const swirl = 0.5 + 0.5 * Math.sin(y * 2.0 + xr * 1.5 + t * 1.4 + w1 * 2.0);
+      const hue = 0.52 + hueShift * 0.28 * swirl + 0.05 * Math.sin(t * 0.5 + frac * 6.28318);
+      const edge = Math.abs(y0);
+      const light = 0.55 + 0.25 * w2 * turb + 0.12 * edge;
+      const sat = 0.75 + 0.2 * swirl;
+
+      col.setHSL(
+        hue % 1.0,
+        Math.min(1.0, Math.max(0.0, sat)),
+        Math.min(0.92, Math.max(0.15, light))
+      );
 
       positions[i].lerp(target, 0.1);
       dummy.position.copy(positions[i]);
@@ -124,7 +145,7 @@ export default function HeroParticles() {
       style={{ position: "absolute", inset: 0 }}
     >
       <color attach="background" args={["#000000"]} />
-      <fogExp2 attach="fog" args={["#000000", 0.008]} />
+      <fogExp2 attach="fog" args={["#000000", 0.006]} />
       <Swarm count={count} />
     </Canvas>
   );
