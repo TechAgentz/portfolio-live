@@ -8,9 +8,9 @@ import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// 3D particle scene — client-only (Three.js can't SSR) and code-split so it
-// never blocks the initial page load.
-const HeroParticles = dynamic(() => import("./HeroParticles"), { ssr: false });
+// 3D globe — client-only (Three.js can't SSR) and code-split so it never
+// blocks the initial page load.
+const HeroGlobe = dynamic(() => import("./Globe"), { ssr: false });
 
 export default function Hero({
   settings = site as SiteSettings,
@@ -23,12 +23,11 @@ export default function Hero({
       id="top"
       className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-slate-950 pt-28 pb-20"
     >
-      {/* Animated particle background (z-0 — above the section bg, below text) */}
+      {/* Rotating globe background (z-0 — above the section bg, below text) */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <HeroParticles />
-        {/* Legibility wash + vignette over the particles */}
-        <div className="absolute inset-0 bg-slate-950/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.55)_100%)]" />
+        <HeroGlobe scale={11} stopOnHover={false} />
+        {/* Legibility wash so the white headline stays readable over the globe */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-slate-950/75" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
