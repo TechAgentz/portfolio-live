@@ -39,7 +39,7 @@ export default function Hero({
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <div className="absolute bottom-0 left-1/2 h-[130vh] w-[130vh] -translate-x-1/2 translate-y-1/2">
           <HeroGlobe
-            scale={14}
+            scale={10}
             detail={4}
             stopOnHover={false}
             initialLatitude={25}
