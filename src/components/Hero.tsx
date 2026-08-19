@@ -37,9 +37,9 @@ export default function Hero({
           Positioned as a large hemisphere at the bottom: the globe's centre is
           at the hero's bottom edge, so only its top half is visible. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 h-[135vw] w-[135vw] -translate-x-1/2 translate-y-1/2">
+        <div className="absolute bottom-0 left-1/2 h-[130vh] w-[130vh] -translate-x-1/2 translate-y-1/2">
           <HeroGlobe
-            scale={12}
+            scale={14}
             detail={4}
             stopOnHover={false}
             initialLatitude={25}
