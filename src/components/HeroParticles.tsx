@@ -1,21 +1,24 @@
 "use client";
 
-// Hero background: rotating 3D particle lattice (cube grid) — ported from the
-// user-provided Three.js sketch into R3F. Non-interactive canvas (pointer
-// events pass through so the hero buttons stay clickable — it auto-rotates
-// itself), responsive particle count, additive-blend glow (no postprocessing
-// dependency, robust across three versions).
+// Hero background: "Arc Reactor" — a holographic amber energy core (fibonacci
+// sphere with a wavy surface, compressed glowing centre, slow spin). Ported
+// from the user-provided Three.js sketch into R3F. Non-interactive canvas
+// (pointer events pass through so the hero buttons stay clickable — it
+// auto-rotates itself), responsive particle count, additive-blend glow (no
+// postprocessing dependency, robust across three versions).
 
 import { useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+const PARAMS = { scale: 55, rotation: 0.8, chaos: 0.7 };
 
 function Swarm({ count }: { count: number }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const groupRef = useRef<THREE.Group>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const target = useMemo(() => new THREE.Vector3(), []);
-  const col = useMemo(() => new THREE.Color(0x00aaff), []);
+  const col = useMemo(() => new THREE.Color(), []);
 
   const positions = useMemo(() => {
     const pos: THREE.Vector3[] = [];
@@ -38,7 +41,7 @@ function Swarm({ count }: { count: number }) {
         color: 0xffffff,
         toneMapped: false,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.6,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       }),
@@ -50,19 +53,43 @@ function Swarm({ count }: { count: number }) {
     if (!mesh) return;
     const time = state.clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.y = time * 0.15;
-      groupRef.current.rotation.x = 0.3;
+      groupRef.current.rotation.x = 0.25;
+      groupRef.current.rotation.y = time * 0.05;
     }
 
-    const s = Math.ceil(Math.pow(count, 1 / 3));
-    const sep = 2.5;
-    const off = (s * sep) / 2;
+    const { scale, rotation, chaos } = PARAMS;
+    const golden = 2.3999632297;
 
     for (let i = 0; i < count; i++) {
-      const z = Math.floor(i / (s * s));
-      const y = Math.floor((i % (s * s)) / s);
-      const x = i % s;
-      target.set(x * sep - off, y * sep - off, z * sep - off);
+      const u = i / count;
+      const theta = i * golden;
+      const yy = 1 - 2 * u;
+      const rr = Math.sqrt(Math.max(0, 1 - yy * yy));
+      const x = rr * Math.cos(theta);
+      const z = rr * Math.sin(theta);
+
+      const t = time * rotation;
+      const wave = Math.sin(theta * 9 + time * 3 + yy * 12) * chaos;
+      const outer = scale * (1 + wave * 0.045);
+
+      let px = x * outer;
+      const py = yy * outer;
+      let pz = z * outer;
+
+      const core = Math.exp(-u * 18);
+      const shrink = 1 - core * 0.35;
+      px *= shrink;
+      pz *= shrink;
+
+      const ca = Math.cos(t * 0.7);
+      const sa = Math.sin(t * 0.7);
+      const rx = px * ca - pz * sa;
+      const rz = px * sa + pz * ca;
+
+      target.set(rx, py * shrink, rz);
+
+      const pulse = 0.5 + 0.5 * Math.sin(time * 4 + theta * 3);
+      col.setHSL(0.07 + pulse * 0.025, 1.0, 0.38 + pulse * 0.22);
 
       positions[i].lerp(target, 0.1);
       dummy.position.copy(positions[i]);
