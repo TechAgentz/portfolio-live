@@ -169,10 +169,11 @@ export default function HeroParticles() {
         camera={{ position: [0, 0, 100], fov: 60 }}
         dpr={1}
         frameloop={active ? "always" : "never"}
-        gl={{ antialias: false, powerPreference: "high-performance" }}
+        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         style={{ position: "absolute", inset: 0 }}
       >
-        <color attach="background" args={["#000000"]} />
+        {/* Transparent canvas — the hero's own dark background shows through,
+            so the square canvas edges never appear. */}
         <fogExp2 attach="fog" args={["#000000", 0.006]} />
         <Swarm count={count} />
       </Canvas>

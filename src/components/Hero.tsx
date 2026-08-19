@@ -21,14 +21,17 @@ export default function Hero({
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-slate-950 pt-28 pb-20"
+      className="relative isolate flex min-h-[100svh] items-start overflow-hidden bg-slate-950 pt-32 pb-20"
     >
-      {/* Animated particle orb (z-0 — above the section bg, below text) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
-        <HeroParticles />
-        {/* Legibility wash + vignette so the white text stays readable */}
-        <div className="absolute inset-0 bg-slate-950/25" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.55)_100%)]" />
+      {/* Animated particle orb as a bottom hemisphere (z-0 — above the section
+          bg, below text): the orb's centre sits at the hero's bottom edge so
+          only its top half is visible, rising from the fold. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 h-[120vh] w-[120vh] -translate-x-1/2 translate-y-1/2">
+          <HeroParticles />
+        </div>
+        {/* Legibility wash so the white text stays readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/30" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
