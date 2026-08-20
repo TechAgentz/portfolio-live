@@ -14,7 +14,9 @@ export default function AuraCursorMount() {
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const mq = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+    );
     const update = () => setEnabled(mq.matches);
     update();
     mq.addEventListener?.("change", update);

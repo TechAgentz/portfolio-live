@@ -146,8 +146,11 @@ export default function HeroParticles() {
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
+    // Respect reduced-motion: keep the orb static (no animation loop).
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let onScreen = true;
-    const sync = () => setActive(onScreen && !document.hidden);
+    const sync = () => setActive(!reduced && onScreen && !document.hidden);
+    sync();
     const io = new IntersectionObserver(
       (entries) => {
         onScreen = entries[0]?.isIntersecting ?? true;

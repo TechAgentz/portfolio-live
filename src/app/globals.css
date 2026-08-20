@@ -287,6 +287,13 @@ main {
   to { background-position: 200% 50%; }
 }
 
+/* Skip rendering work for off-screen sections (long-page perf win).
+   contain-intrinsic-size keeps the scrollbar stable before they render. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
 /* Scrollbar hide utility */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

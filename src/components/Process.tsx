@@ -26,7 +26,7 @@ export default function Process({
   const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section id="process" className="relative scroll-mt-24 py-14 sm:py-20">
+    <section id="process" className="cv-auto relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           kicker={heading.kicker}

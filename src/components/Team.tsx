@@ -13,7 +13,7 @@ export default function Team({
   heading?: SectionHeadingData;
 }) {
   return (
-    <section id="team" className="relative scroll-mt-24 bg-surface py-14 sm:py-20">
+    <section id="team" className="cv-auto relative scroll-mt-24 bg-surface py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           kicker={heading.kicker}

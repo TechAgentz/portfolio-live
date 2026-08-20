@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/format";
 import { Icon } from "@/components/Icons";
 import { getPost, getPosts, getSettings } from "@/lib/queries";
 
-export const revalidate = 60;
+export const revalidate = 600;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

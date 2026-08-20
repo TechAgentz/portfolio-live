@@ -24,7 +24,7 @@ import {
 
 // Re-fetch from the DB at most once a minute; admin mutations also
 // revalidate this path for near-instant updates.
-export const revalidate = 60;
+export const revalidate = 600;
 
 export default async function Home() {
   const [

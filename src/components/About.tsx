@@ -18,7 +18,7 @@ export default function About({
 }) {
   const cards = settings.stats;
   return (
-    <section id="about" className="relative scroll-mt-24 py-14 sm:py-20">
+    <section id="about" className="cv-auto relative scroll-mt-24 py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <SectionHeading
           kicker={heading.kicker}
