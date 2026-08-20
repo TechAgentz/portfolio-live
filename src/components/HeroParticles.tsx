@@ -146,11 +146,22 @@ export default function HeroParticles() {
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
-    // Respect reduced-motion: keep the orb static (no animation loop).
+    // Reduced-motion: the orb must still be VISIBLE — run the loop just long
+    // enough for the particles to settle into the sphere, then freeze that
+    // frame (never render nothing).
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let settled = false;
     let onScreen = true;
-    const sync = () => setActive(!reduced && onScreen && !document.hidden);
+    const sync = () =>
+      setActive(onScreen && !document.hidden && !(reduced && settled));
     sync();
+    let timer: number | undefined;
+    if (reduced) {
+      timer = window.setTimeout(() => {
+        settled = true;
+        sync();
+      }, 2500);
+    }
     const io = new IntersectionObserver(
       (entries) => {
         onScreen = entries[0]?.isIntersecting ?? true;
@@ -161,6 +172,7 @@ export default function HeroParticles() {
     io.observe(el);
     document.addEventListener("visibilitychange", sync);
     return () => {
+      if (timer) window.clearTimeout(timer);
       io.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
