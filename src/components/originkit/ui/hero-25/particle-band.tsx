@@ -42,7 +42,7 @@ export const ParticleBand = () => {
       backgroundColor="#0b0b0c"
       particleShape="circle"
       particleColor="single"
-      singleColor="#c8c8cc"
+      singleColor="#93c5fd"
       // particleCount sets the sampling step (150 / count): 25 -> every 6px
       particleCount={25}
       // the rasteriser draws each dot at ceil(size / 4) device px, so a value of
