@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import Hero25 from "@/components/originkit/hero-25";
 import About from "@/components/About";
 import Team from "@/components/Team";
 import Expertise from "@/components/Expertise";
@@ -54,7 +54,7 @@ export default async function Home() {
       <ScrollProgress />
       <Navbar settings={settings} />
       <main>
-        <Hero settings={settings} />
+        <Hero25 />
         <div className="section-line mx-auto max-w-7xl" />
         <About settings={settings} valueCards={valueCards} heading={sections.about} />
         <Team members={members} heading={sections.team} />
