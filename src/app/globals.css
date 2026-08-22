@@ -1,6 +1,3 @@
-/* Only the families hero-25 actually renders (the Originkit CLI imported 18
-   families; the rest were unused token fallbacks and are trimmed for perf). */
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap");
 @import "tailwindcss";
 @import "./originkit-section-themes.css";
 @import "./originkit-section-theme.css";

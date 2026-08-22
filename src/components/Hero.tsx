@@ -8,9 +8,13 @@ import { Icon } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// 3D particle scene — client-only (Three.js can't SSR) and code-split so it
-// never blocks the initial page load.
-const HeroParticles = dynamic(() => import("./HeroParticles"), { ssr: false });
+// Particle building skyline (from Originkit hero-25) — client-only canvas,
+// code-split so it never blocks the initial page load. Interactive (cursor
+// repulsion) on desktop pointers, static assembled skyline otherwise.
+const ParticleBand = dynamic(
+  () => import("./originkit/ui/hero-25/particle-band").then((m) => m.ParticleBand),
+  { ssr: false }
+);
 
 export default function Hero({
   settings = site as SiteSettings,
@@ -21,18 +25,16 @@ export default function Hero({
   return (
     <section
       id="top"
-      className="relative isolate flex min-h-[100svh] items-start overflow-hidden bg-slate-950 pt-32 pb-20"
+      data-hero
+      className="relative isolate flex min-h-[100svh] items-start overflow-hidden bg-[#0b0b0c] pt-32 pb-20"
     >
-      {/* Animated particle orb as a bottom hemisphere (z-0 — above the section
-          bg, below text): the orb's centre sits at the hero's bottom edge so
-          only its top half is visible, rising from the fold. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* Mobile: full orb centered in the hero. sm+: bottom hemisphere. */}
-        <div className="absolute left-1/2 top-1/2 h-[130vw] w-[130vw] -translate-x-1/2 -translate-y-1/2 sm:top-auto sm:bottom-0 sm:h-[120vh] sm:w-[120vh] sm:translate-y-1/2">
-          <HeroParticles />
+      {/* Animated building skyline pinned to the bottom (z-0 — above the
+          section bg, below text). Drawn at its 1611px design width and
+          clipped at the sides on smaller screens so it never squashes. */}
+      <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 h-[220px] w-[1611px] -translate-x-1/2 sm:h-[300px] lg:h-[346px]">
+          <ParticleBand />
         </div>
-        {/* Legibility wash so the white text stays readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/30" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8">
