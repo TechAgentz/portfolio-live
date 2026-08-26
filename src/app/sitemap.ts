@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPosts } from "@/lib/queries";
 
-const siteUrl = "https://techagentz.vercel.app";
+const siteUrl = "https://www.techagentz.online";
 
 export const revalidate = 300;
 
@@ -15,6 +15,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
+    },
+    {
+      url: `${siteUrl}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
   ];
 

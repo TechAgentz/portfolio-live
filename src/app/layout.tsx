@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://techagentz.vercel.app";
+const siteUrl = "https://www.techagentz.online";
 const title = `${site.name} — We Build Exceptional Digital Experiences`;
 const description = site.intro;
 
@@ -75,8 +75,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#2563eb",
-  colorScheme: "light",
+  themeColor: "#06060f",
+  colorScheme: "dark",
 };
 
 const orgJsonLd = {

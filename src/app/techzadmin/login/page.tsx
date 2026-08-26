@@ -29,7 +29,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-surface px-5">
+    <div className="theme-light grid min-h-screen place-items-center bg-surface px-5">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex items-center gap-2.5">
           <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white">

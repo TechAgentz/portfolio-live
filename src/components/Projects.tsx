@@ -30,8 +30,15 @@ export default function Projects({
   }, [active]);
 
   return (
-    <section id="work" className="cv-auto relative scroll-mt-24 bg-surface py-14 sm:py-20">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="work" className="cv-auto relative scroll-mt-24 py-14 sm:py-20">
+      {/* Deep-space backdrop: faint stars plus two soft colour clouds. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="starfield opacity-60" />
+        <div className="absolute -left-40 top-10 h-[26rem] w-[26rem] rounded-full bg-accent/10 blur-[130px]" />
+        <div className="absolute -right-32 bottom-0 h-[24rem] w-[24rem] rounded-full bg-violet/10 blur-[130px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <SectionHeading
             align="left"
@@ -42,46 +49,53 @@ export default function Projects({
           />
         </div>
 
-        <div className="swipe-row mt-12 sm:grid sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="swipe-row mt-12 sm:grid sm:gap-x-6 sm:gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((p, i) => (
             <motion.button
               key={p.slug}
               onClick={() => setActive(p)}
+              aria-label={`Open case study: ${p.title}`}
               initial={{ opacity: 0, y: 34 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease: EASE }}
-              className="group card overflow-hidden text-left transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_30px_70px_-30px_rgba(37,99,235,0.4)]"
+              transition={{ duration: 0.6, delay: (i % 4) * 0.07, ease: EASE }}
+              className="group w-full text-left"
             >
-              <div className="relative aspect-[16/11] overflow-hidden">
+              {/* Cover sits in its own glass frame; the copy lives underneath. */}
+              <div className="card relative aspect-[4/3] overflow-hidden transition-all duration-500 group-hover:-translate-y-1.5 group-hover:border-accent-bright/45 group-hover:shadow-[0_30px_70px_-30px_var(--accent-glow)]">
                 <Image
                   src={p.cover}
                   alt={p.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/10 to-transparent opacity-70 transition-opacity duration-400 group-hover:opacity-95" />
-                <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-700 backdrop-blur">
+                {/* Tint the photo into the dark canvas so the row reads as one surface. */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/15 to-background/5 transition-opacity duration-500 group-hover:opacity-70" />
+                <div className="absolute inset-0 rounded-[1.25rem] ring-1 ring-inset ring-white/10" />
+
+                <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-background/60 px-2.5 py-1 text-[0.68rem] font-semibold tracking-wide text-foreground backdrop-blur-md">
                   {p.category}
                 </span>
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
-                  <div className="translate-y-2 opacity-0 transition-all duration-400 group-hover:translate-y-0 group-hover:opacity-100">
-                    <p className="text-sm text-white/80">{p.summary}</p>
-                  </div>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-accent shadow-lg transition-transform duration-400 group-hover:rotate-45 group-hover:scale-110">
-                    <Icon.arrowUpRight width={20} />
-                  </span>
-                </div>
+
+                <span className="absolute bottom-3 right-3 grid h-9 w-9 translate-y-2 place-items-center rounded-full text-white opacity-0 shadow-[0_10px_28px_-8px_var(--accent-glow)] transition-all duration-400 [background:var(--grad-brand)] group-hover:translate-y-0 group-hover:opacity-100">
+                  <Icon.arrowUpRight width={16} />
+                </span>
               </div>
-              <div className="flex items-center justify-between p-5">
-                <div>
-                  <h3 className="font-display text-lg font-semibold tracking-tight">
+
+              <div className="mt-4 px-0.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-display text-base font-semibold tracking-tight text-foreground transition-colors duration-300 group-hover:text-accent-bright">
                     {p.title}
                   </h3>
-                  <p className="mono mt-0.5 text-xs text-faint">{p.year}</p>
+                  <span className="mono shrink-0 text-[0.68rem] text-faint">
+                    {p.year}
+                  </span>
                 </div>
-                <div className="flex flex-wrap justify-end gap-1.5">
+                <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-muted">
+                  {p.summary}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
                   {p.tags.slice(0, 2).map((t) => (
                     <span key={t} className="tag">
                       {t}
@@ -91,6 +105,12 @@ export default function Projects({
               </div>
             </motion.button>
           ))}
+        </div>
+
+        <div className="mt-12 flex justify-center sm:mt-14">
+          <a href="/#contact" className="btn btn-accent">
+            View Full Portfolio <Icon.arrow width={16} />
+          </a>
         </div>
       </div>
 
@@ -114,9 +134,11 @@ function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
+  const titleId = `project-modal-${project.slug}`;
+
   return (
     <motion.div
-      className="fixed inset-0 z-[70] grid place-items-start overflow-y-auto bg-slate-950/60 p-4 backdrop-blur-sm sm:p-8"
+      className="fixed inset-0 z-[70] grid place-items-start overflow-y-auto bg-background/85 p-4 backdrop-blur-md sm:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -125,12 +147,13 @@ function ProjectModal({
       <motion.div
         role="dialog"
         aria-modal="true"
+        aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 30, scale: 0.98 }}
         transition={{ duration: 0.35, ease: EASE }}
-        className="relative mx-auto my-auto w-full max-w-3xl overflow-hidden rounded-3xl bg-background shadow-2xl"
+        className="relative mx-auto my-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-surface shadow-[0_60px_140px_-40px_rgba(0,0,0,0.95)]"
       >
         <div className="relative aspect-[16/9] w-full">
           <Image
@@ -140,19 +163,22 @@ function ProjectModal({
             sizes="768px"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/55 to-background/20" />
           <button
             onClick={onClose}
             aria-label="Close"
-            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/90 text-slate-800 backdrop-blur transition-all hover:scale-110 hover:bg-white"
+            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/10 text-foreground backdrop-blur-md transition-all hover:scale-110 hover:border-accent-bright/50 hover:bg-white/20"
           >
             <Icon.close width={18} />
           </button>
           <div className="absolute bottom-0 left-0 p-6 sm:p-8">
-            <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+            <span className="rounded-full px-3 py-1 text-xs font-semibold text-white shadow-[0_10px_28px_-10px_var(--accent-glow)] [background:var(--grad-brand)]">
               {project.category}
             </span>
-            <h3 className="mt-3 font-display text-2xl font-bold text-white sm:text-3xl">
+            <h3
+              id={titleId}
+              className="mt-3 font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
+            >
               {project.title}
             </h3>
           </div>
@@ -167,13 +193,13 @@ function ProjectModal({
             ))}
           </div>
 
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {project.results.map((r) => (
               <div
                 key={r.label}
-                className="rounded-2xl border border-border bg-surface p-4 text-center"
+                className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-center backdrop-blur-sm"
               >
-                <div className="font-display text-2xl font-bold text-accent">
+                <div className="grad-text font-display text-2xl font-bold">
                   {r.value}
                 </div>
                 <div className="mt-1 text-xs text-muted">{r.label}</div>
@@ -191,7 +217,7 @@ function ProjectModal({
                 controls
                 playsInline
                 preload="metadata"
-                className="w-full rounded-2xl border border-border bg-black"
+                className="w-full rounded-2xl border border-white/10 bg-black"
               />
             </div>
           )}
@@ -205,7 +231,7 @@ function ProjectModal({
                 {project.gallery.map((src, i) => (
                   <div
                     key={src + i}
-                    className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-surface"
+                    className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-white/[0.04]"
                   >
                     <Image
                       src={src}
@@ -239,10 +265,10 @@ function ProjectModal({
             </div>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
             <div className="text-sm">
               <span className="text-faint">Client · </span>
-              <span className="font-medium">{project.client}</span>
+              <span className="font-medium text-foreground">{project.client}</span>
             </div>
             <a href="#contact" onClick={onClose} className="btn btn-accent text-sm">
               Start a similar project <Icon.arrow width={16} />

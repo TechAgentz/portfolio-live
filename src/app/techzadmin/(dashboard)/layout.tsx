@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   if (!session) redirect("/techzadmin/login");
 
   return (
-    <div className="min-h-screen bg-slate-100 text-foreground">
+    <div className="theme-light min-h-screen bg-slate-100 text-foreground">
       <Toaster />
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6 lg:px-6">
         {/* Sidebar (dark, high-contrast) */}

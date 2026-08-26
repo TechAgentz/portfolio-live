@@ -2,18 +2,22 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { site, type SiteSettings } from "@/data/site";
 import { Icon } from "./Icons";
 
+/** Homepage sections that still exist, plus the standalone /blog page. */
 const links = [
-  { href: "/#about", label: "About" },
-  { href: "/#team", label: "Team" },
-  { href: "/#expertise", label: "Expertise" },
-  { href: "/#work", label: "Work" },
-  { href: "/#process", label: "Process" },
-  { href: "/#blog", label: "Insights" },
+  { href: "/#top", label: "Overview", section: "top" },
+  { href: "/#expertise", label: "Services", section: "expertise" },
+  { href: "/#work", label: "Work", section: "work" },
+  { href: "/blog", label: "Insights", section: null },
 ];
+
+const SECTION_IDS = links
+  .map((l) => l.section)
+  .filter((s): s is string => Boolean(s));
 
 export default function Navbar({
   settings = site as SiteSettings,
@@ -21,13 +25,37 @@ export default function Navbar({
   settings?: SiteSettings;
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState(SECTION_IDS[0]);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
+    let frame = 0;
+
+    // rAF-throttled: reading rects every scroll event would thrash layout on
+    // the content-visibility sections.
+    const measure = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 12);
+      let current = SECTION_IDS[0];
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 140) current = id;
+      }
+      setActiveSection(current);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(measure);
+    };
+
+    measure();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -37,61 +65,73 @@ export default function Navbar({
     };
   }, [open]);
 
+  const onBlog = pathname?.startsWith("/blog") ?? false;
+  const activeHref = onBlog ? "/blog" : `/#${activeSection}`;
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-x-0 top-0 z-50"
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4"
     >
+      {/* Floating capsule: dark translucent glass with a gradient hairline. */}
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between px-5 transition-all duration-300 sm:px-8 ${
+        className={`grad-border mx-auto flex w-full max-w-4xl items-center justify-between gap-2 rounded-full py-2 pl-2.5 pr-2.5 transition-all duration-300 sm:pl-3.5 ${
           scrolled
-            ? "my-2.5 rounded-2xl border border-border bg-white/80 py-2.5 shadow-[0_10px_40px_-20px_rgba(15,23,42,0.25)] backdrop-blur-xl"
-            : "my-4 py-3"
+            ? "bg-surface/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_20px_50px_-24px_rgba(0,0,0,0.95)] backdrop-blur-2xl"
+            : "bg-surface/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_16px_44px_-26px_rgba(0,0,0,0.85)] backdrop-blur-xl"
         }`}
       >
-        <Link href="/#top" className="group flex items-center gap-2.5">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-accent-bright to-accent text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(37,99,235,0.8)] transition-transform duration-300 group-hover:scale-105">
+        <Link
+          href="/#top"
+          className="group flex shrink-0 items-center gap-2.5 rounded-full pr-1"
+        >
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[0.7rem] bg-[image:var(--grad-brand)] text-[0.72rem] font-bold tracking-tight text-white shadow-[0_8px_20px_-8px_var(--accent-glow)] transition-transform duration-300 group-hover:scale-105">
             {settings.brandMark}
           </span>
-          <span
-            className={`font-display text-lg font-bold tracking-tight transition-colors ${
-              scrolled ? "text-foreground" : "text-white"
-            }`}
-          >
+          <span className="font-display text-[0.95rem] font-bold tracking-tight text-white sm:text-base">
             {settings.name}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
-                scrolled
-                  ? "text-muted hover:text-foreground"
-                  : "text-white/80 hover:text-white"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+          {links.map((l) => {
+            const active = l.href === activeHref;
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={active ? "page" : undefined}
+                className={`relative rounded-full border px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                  active
+                    ? "border-white/15 bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_8px_22px_-12px_var(--accent-glow)]"
+                    : "border-transparent text-white/65 hover:bg-white/[0.06] hover:text-white"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Link href="/#contact" className="btn btn-accent text-sm">
-            Let&apos;s Talk
+        <div className="hidden shrink-0 items-center lg:flex">
+          <Link
+            href="/#contact"
+            className="inline-flex items-center justify-center rounded-full bg-[image:var(--grad-brand)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_28px_-10px_rgba(99,102,241,0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-[0_16px_38px_-12px_rgba(139,92,246,0.85)]"
+          >
+            Contact Us
           </Link>
         </div>
 
         <button
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 place-items-center rounded-xl border border-border bg-white text-foreground lg:hidden"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/15 bg-white/10 text-white transition-colors hover:border-white/25 hover:bg-white/[0.18] lg:hidden"
         >
-          {open ? <Icon.close width={20} /> : <Icon.menu width={20} />}
+          {open ? <Icon.close width={18} /> : <Icon.menu width={18} />}
         </button>
       </div>
 
@@ -99,28 +139,37 @@ export default function Navbar({
         {open && (
           <motion.div
             key="mobile-menu"
+            id="mobile-nav"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="mx-3 mt-1 overflow-hidden rounded-2xl border border-border bg-white/95 p-3 shadow-xl backdrop-blur-xl lg:hidden"
+            className="grad-border mx-auto mt-2 w-full max-w-4xl overflow-hidden rounded-3xl bg-surface/95 p-2.5 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.95)] backdrop-blur-2xl lg:hidden"
           >
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="block rounded-xl px-4 py-3 text-base font-medium text-foreground transition-colors hover:bg-accent-soft hover:text-accent"
-              >
-                {l.label}
-              </Link>
-            ))}
+            {links.map((l) => {
+              const active = l.href === activeHref;
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={`block rounded-2xl px-4 py-3 text-base font-medium transition-colors ${
+                    active
+                      ? "bg-white/10 text-white"
+                      : "text-white/70 hover:bg-white/[0.06] hover:text-white"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              );
+            })}
             <Link
               href="/#contact"
               onClick={() => setOpen(false)}
               className="btn btn-accent mt-2 w-full"
             >
-              Let&apos;s Talk
+              Contact Us
             </Link>
           </motion.div>
         )}
