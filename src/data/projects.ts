@@ -26,8 +26,7 @@ export const projects: Project[] = [
     year: "2026",
     summary:
       "A from-scratch rebuild of a full ERP accounting core — general ledger, invoicing, receipts, and financial reporting — as a local-first Next.js app with zero external services to configure.",
-    cover:
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/aegis-erp.jpg",
     tags: ["Next.js", "TypeScript", "SQLite", "Tailwind", "Accounting", "ERP"],
     client: "Internal Project",
     services: [
@@ -53,8 +52,7 @@ export const projects: Project[] = [
     year: "2025",
     summary:
       "A lead-management CRM for real estate agents where an AI voice assistant runs the qualification call itself, then automatically extracts budget, timeline, and urgency into a structured lead score.",
-    cover:
-      "https://images.unsplash.com/photo-1611926653458-09294b3142bf?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/realtor-ai-crm.jpg",
     tags: ["Node.js", "Express", "AI Agents", "LLM Integration", "Real Estate", "SQLite"],
     client: "Personal Project",
     services: ["Backend Development", "AI Prompt Engineering", "API Integration"],
@@ -95,8 +93,7 @@ export const projects: Project[] = [
     year: "2025",
     summary:
       "A lightweight content generator that turns a business profile into ready-to-post social, sales, and marketing copy on demand.",
-    cover:
-      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/growth-agent.jpg",
     tags: ["Node.js", "Express", "LLM Integration", "Content Generation"],
     client: "Personal Project",
     services: ["Backend Development", "AI Integration", "Prompt Design"],
@@ -135,8 +132,7 @@ export const projects: Project[] = [
     year: "2026",
     summary:
       "Watches Noon.ae and Amazon.ae for specific iPhone and Samsung models and sends an instant SMS the moment a price drop clears a set threshold.",
-    cover:
-      "https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/phone-price-tracker.jpg",
     tags: ["Python", "Playwright", "Twilio", "Web Scraping", "Automation"],
     client: "Personal Project",
     services: ["Python Development", "Web Scraping", "SMS Integration", "Task Scheduling"],
@@ -156,8 +152,7 @@ export const projects: Project[] = [
     year: "2026",
     summary:
       "Companion to the phone tracker — monitors specific flight routes and hotel stays and sends an SMS the instant a fare or room rate drops.",
-    cover:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/travel-price-tracker.jpg",
     tags: ["Python", "Playwright", "Twilio", "Automation"],
     client: "Personal Project",
     services: ["Python Development", "Web Scraping", "Automation"],
@@ -240,8 +235,7 @@ export const projects: Project[] = [
     year: "2025",
     summary:
       "A browser-based Local Purchase Order generator — manage vendors and your own company letterhead, itemize costs with automatic tax and discount totals, and print a ready-to-send LPO.",
-    cover:
-      "https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/lpo-estimator.jpg",
     tags: ["JavaScript", "LocalStorage", "Business Tools"],
     client: "Personal Project",
     services: ["Frontend Development", "Business Process Tooling"],
