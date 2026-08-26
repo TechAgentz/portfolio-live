@@ -62,3 +62,23 @@ ALTER TABLE "Setting"
 UPDATE "Setting" SET "aboutText" =
   'We were founded on a simple belief: great software comes from small teams of people who deeply care. We keep our team lean and senior so every detail earns its place.'
 WHERE "id" = 'default' AND ("aboutText" IS NULL OR "aboutText" = '');
+
+-- ============================================================
+-- 7) Resource table — catalogs/brochures (added 2026-08-27).
+--    The model shipped with the admin UI but the table was never
+--    created, so getResources() fell back to an empty list and the
+--    Resources section rendered nothing. Safe to re-run.
+-- ============================================================
+CREATE TABLE IF NOT EXISTS "Resource" (
+  "id"          TEXT NOT NULL,
+  "title"       TEXT NOT NULL,
+  "description" TEXT NOT NULL DEFAULT '',
+  "kind"        TEXT NOT NULL DEFAULT 'catalog',
+  "fileUrl"     TEXT NOT NULL,
+  "cover"       TEXT NOT NULL DEFAULT '',
+  "fileSize"    TEXT NOT NULL DEFAULT '',
+  "order"       INTEGER NOT NULL DEFAULT 0,
+  "createdAt"   TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "Resource_pkey" PRIMARY KEY ("id")
+);
+ALTER TABLE "Resource" ENABLE ROW LEVEL SECURITY;
