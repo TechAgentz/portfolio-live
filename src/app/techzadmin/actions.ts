@@ -210,6 +210,31 @@ export async function deleteProcess(fd: FormData) {
   revalidateAll("/techzadmin/process");
 }
 
+// ============================ RESOURCES (catalogs/brochures) ============================
+export async function saveResource(fd: FormData) {
+  await requireAdmin();
+  const id = str(fd, "id");
+  const data = {
+    title: str(fd, "title"),
+    description: str(fd, "description"),
+    kind: str(fd, "kind") || "catalog",
+    fileUrl: str(fd, "fileUrl"),
+    fileSize: str(fd, "fileUrlSize"),
+    cover: str(fd, "cover"),
+    order: num(fd, "order"),
+  };
+  if (id) await prisma.resource.update({ where: { id }, data });
+  else await prisma.resource.create({ data });
+  revalidateAll("/techzadmin/resources");
+  redirect("/techzadmin/resources?flash=saved");
+}
+
+export async function deleteResource(fd: FormData) {
+  await requireAdmin();
+  await prisma.resource.delete({ where: { id: str(fd, "id") } });
+  revalidateAll("/techzadmin/resources");
+}
+
 // ============================ VALUES ============================
 export async function saveValue(fd: FormData) {
   await requireAdmin();

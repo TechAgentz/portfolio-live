@@ -12,6 +12,7 @@ export type SectionKey =
   | "work"
   | "process"
   | "testimonials"
+  | "resources"
   | "blog"
   | "contact";
 
@@ -58,6 +59,13 @@ export const sectionDefaults: Record<SectionKey, SectionHeadingData> = {
     subtitle:
       "We measure our success by the long-term partnerships we build. Here's what our clients say.",
   },
+  resources: {
+    kicker: "Resources",
+    title: "Catalogs & brochures",
+    highlight: "brochures",
+    subtitle:
+      "Download our product catalogs, service brochures, and spec sheets — updated straight from the admin panel.",
+  },
   blog: {
     kicker: "Insights",
     title: "Notes from the workshop",
@@ -75,7 +83,7 @@ export const sectionDefaults: Record<SectionKey, SectionHeadingData> = {
 };
 
 export const sectionOrder: SectionKey[] = [
-  "about", "team", "expertise", "work", "process", "testimonials", "blog", "contact",
+  "about", "team", "expertise", "work", "process", "testimonials", "resources", "blog", "contact",
 ];
 
 export const sectionLabels: Record<SectionKey, string> = {
@@ -85,6 +93,7 @@ export const sectionLabels: Record<SectionKey, string> = {
   work: "Featured Work",
   process: "Process",
   testimonials: "Testimonials",
+  resources: "Resources (Catalogs/Brochures)",
   blog: "Blog / Insights",
   contact: "Contact",
 };

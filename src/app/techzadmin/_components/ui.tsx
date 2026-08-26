@@ -73,6 +73,44 @@ export function Textarea({
   );
 }
 
+export function Select({
+  label,
+  name,
+  defaultValue,
+  options,
+  required,
+  hint,
+}: {
+  label: string;
+  name: string;
+  defaultValue?: string;
+  options: { value: string; label: string }[];
+  required?: boolean;
+  hint?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium text-foreground">
+        {label}
+        {required && <span className="text-accent"> *</span>}
+      </span>
+      <select
+        name={name}
+        defaultValue={defaultValue}
+        required={required}
+        className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-all focus:border-accent focus:ring-4 focus:ring-[var(--ring)]"
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+      {hint && <span className="mt-1 block text-xs text-faint">{hint}</span>}
+    </label>
+  );
+}
+
 export function Toggle({
   label,
   name,

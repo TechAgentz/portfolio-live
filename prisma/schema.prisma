@@ -102,6 +102,19 @@ model ProcessStep {
   createdAt DateTime @default(now())
 }
 
+// Downloadable catalogs / brochures / spec sheets, managed from the admin
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @default("")
+  kind        String   @default("catalog") // "catalog" | "brochure" | "other"
+  fileUrl     String
+  cover       String   @default("")
+  fileSize    String   @default("") // human-readable, e.g. "2.4 MB"
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
 // About-section value cards
 model Value {
   id        String   @id @default(cuid())

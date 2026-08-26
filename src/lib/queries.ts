@@ -12,6 +12,7 @@ import {
   type Skill,
 } from "@/data/expertise";
 import { processSteps as staticProcess } from "@/data/process";
+import { resources as staticResources, type Resource } from "@/data/resources";
 import { techStack as staticTechStack } from "@/data/expertise";
 import {
   sectionDefaults,
@@ -185,6 +186,21 @@ export async function getProcess(): Promise<ProcessStepView[]> {
       icon: s.icon,
     }));
   }, staticProcess);
+}
+
+export async function getResources(): Promise<Resource[]> {
+  return safe(async () => {
+    const rows = await prisma.resource.findMany({ orderBy: { order: "asc" } });
+    if (rows.length === 0) return staticResources;
+    return rows.map((r) => ({
+      title: r.title,
+      description: r.description,
+      kind: (r.kind as Resource["kind"]) || "catalog",
+      fileUrl: r.fileUrl,
+      cover: r.cover ?? "",
+      fileSize: r.fileSize ?? "",
+    }));
+  }, staticResources);
 }
 
 export type Stat = { value: number; suffix: string; label: string };

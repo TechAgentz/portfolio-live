@@ -9,6 +9,7 @@ const nav = [
   { href: "/techzadmin/projects", label: "Projects" },
   { href: "/techzadmin/blog", label: "Blog" },
   { href: "/techzadmin/testimonials", label: "Testimonials" },
+  { href: "/techzadmin/resources", label: "Catalogs & Brochures" },
   { href: "/techzadmin/expertise", label: "Expertise" },
   { href: "/techzadmin/process", label: "Process" },
   { href: "/techzadmin/values", label: "Values" },

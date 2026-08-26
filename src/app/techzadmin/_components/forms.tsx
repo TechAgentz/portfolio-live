@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Field, Textarea, Toggle, Card } from "./ui";
+import { Field, Textarea, Toggle, Card, Select } from "./ui";
 import { SubmitButton } from "./SubmitButton";
 import { ImageField } from "./ImageField";
 import { GalleryField } from "./GalleryField";
 import { VideoField } from "./VideoField";
+import { FileField } from "./FileField";
 
 function Actions({ cancelHref }: { cancelHref: string }) {
   return (
@@ -209,6 +210,46 @@ export function ProcessForm({ record, action }: { record?: ProcessRow; action: (
         <Textarea label="Body" name="body" defaultValue={record?.body} required />
         <Field label="Sort order" name="order" type="number" defaultValue={record?.order ?? 0} />
         <Actions cancelHref="/techzadmin/process" />
+      </form>
+    </Card>
+  );
+}
+
+// ---------------- Resource (catalog / brochure) ----------------
+type ResourceRow = {
+  id?: string; title?: string; description?: string; kind?: string;
+  fileUrl?: string; cover?: string; fileSize?: string; order?: number;
+};
+export function ResourceForm({ record, action }: { record?: ResourceRow; action: (fd: FormData) => void }) {
+  return (
+    <Card>
+      <form action={action} className="space-y-4">
+        {record?.id && <input type="hidden" name="id" defaultValue={record.id} />}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Title" name="title" defaultValue={record?.title} required hint="e.g. 2026 Product Catalog" />
+          <Select
+            label="Type"
+            name="kind"
+            defaultValue={record?.kind ?? "catalog"}
+            options={[
+              { value: "catalog", label: "Catalog" },
+              { value: "brochure", label: "Brochure" },
+              { value: "other", label: "Other" },
+            ]}
+          />
+        </div>
+        <Textarea label="Description" name="description" defaultValue={record?.description} rows={2} hint="Shown under the title on the site." />
+        <FileField
+          label="File"
+          name="fileUrl"
+          defaultValue={record?.fileUrl}
+          defaultSize={record?.fileSize}
+          folder="resources"
+          required
+        />
+        <ImageField label="Cover thumbnail" name="cover" defaultValue={record?.cover} folder="resources" aspect="aspect-[4/5]" />
+        <Field label="Sort order" name="order" type="number" defaultValue={record?.order ?? 0} />
+        <Actions cancelHref="/techzadmin/resources" />
       </form>
     </Card>
   );

@@ -3,8 +3,10 @@ import { authOptions } from "@/lib/auth";
 import {
   ALLOWED,
   ALLOWED_VIDEO,
+  ALLOWED_DOC,
   MAX_IMAGE_BYTES,
   MAX_VIDEO_BYTES,
+  MAX_DOC_BYTES,
   uploadToStorage,
   uploadsConfigured,
 } from "@/lib/storage";
@@ -37,7 +39,8 @@ export async function POST(req: Request) {
   if (!ALLOWED.includes(file.type))
     return json({ error: `Unsupported type: ${file.type}` }, 415);
   const isVideo = ALLOWED_VIDEO.includes(file.type);
-  const limit = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
+  const isDoc = ALLOWED_DOC.includes(file.type);
+  const limit = isVideo ? MAX_VIDEO_BYTES : isDoc ? MAX_DOC_BYTES : MAX_IMAGE_BYTES;
   if (file.size > limit)
     return json(
       { error: `File exceeds ${Math.round(limit / 1024 / 1024)}MB.` },

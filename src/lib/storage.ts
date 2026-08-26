@@ -12,12 +12,18 @@ export const ALLOWED_IMAGE = [
 export const ALLOWED_VIDEO = [
   "video/webm", "video/mp4", "video/quicktime",
 ];
-export const ALLOWED = [...ALLOWED_IMAGE, ...ALLOWED_VIDEO];
+export const ALLOWED_DOC = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+export const ALLOWED = [...ALLOWED_IMAGE, ...ALLOWED_VIDEO, ...ALLOWED_DOC];
 
 // Per-type upload ceilings enforced in the API route.
 export const MAX_IMAGE_BYTES = 8 * 1024 * 1024; // 8MB
 export const MAX_VIDEO_BYTES = 50 * 1024 * 1024; // 50MB (videos are compressed client-side)
-// Bucket-level limit must be the larger of the two.
+export const MAX_DOC_BYTES = 20 * 1024 * 1024; // 20MB (catalogs/brochures)
+// Bucket-level limit must be the largest of the three.
 export const MAX_BYTES = MAX_VIDEO_BYTES;
 
 export function uploadsConfigured() {
@@ -63,6 +69,9 @@ const EXT: Record<string, string> = {
   "video/webm": "webm",
   "video/mp4": "mp4",
   "video/quicktime": "mov",
+  "application/pdf": "pdf",
+  "application/msword": "doc",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
 };
 
 /**

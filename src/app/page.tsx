@@ -6,6 +6,7 @@ import Expertise from "@/components/Expertise";
 import Projects from "@/components/Projects";
 import Process from "@/components/Process";
 import Testimonials from "@/components/Testimonials";
+import Resources from "@/components/Resources";
 import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -20,6 +21,7 @@ import {
   getSettings,
   getValues,
   getSections,
+  getResources,
 } from "@/lib/queries";
 
 // Re-fetch from the DB at most once a minute; admin mutations also
@@ -37,6 +39,7 @@ export default async function Home() {
     process,
     valueCards,
     sections,
+    resources,
   ] = await Promise.all([
     getSettings(),
     getMembers(),
@@ -47,6 +50,7 @@ export default async function Home() {
     getProcess(),
     getValues(),
     getSections(),
+    getResources(),
   ]);
 
   return (
@@ -62,6 +66,7 @@ export default async function Home() {
         <Projects items={projects} heading={sections.work} />
         <Process steps={process} heading={sections.process} />
         <Testimonials items={testimonials} heading={sections.testimonials} />
+        <Resources items={resources} heading={sections.resources} />
         <Blog items={posts} heading={sections.blog} />
         <Contact settings={settings} heading={sections.contact} />
       </main>
