@@ -115,8 +115,7 @@ export const projects: Project[] = [
     year: "2026",
     summary:
       "A full product-catalog storefront with a custom admin panel — customers browse and enquire by WhatsApp or email instead of checking out, while every product, image, and business detail is managed without touching a database.",
-    cover:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80",
+    cover: "/projects/networxhub-catalog.png",
     tags: ["Next.js", "Admin Panel", "WhatsApp Integration", "Resend", "File-Based CMS"],
     client: "Client Project",
     services: ["Full-Stack Development", "Admin Panel Design", "Third-Party Integrations"],
