@@ -2,20 +2,11 @@
 
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { site, type SiteSettings } from "@/data/site";
 import { Icon, type IconName } from "./Icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-// Particle building skyline (from Originkit hero-25) — client-only canvas,
-// code-split so it never blocks the initial page load. Interactive (cursor
-// repulsion) on desktop pointers, static assembled skyline otherwise.
-const ParticleBand = dynamic(
-  () => import("./originkit/ui/hero-25/particle-band").then((m) => m.ParticleBand),
-  { ssr: false }
-);
 
 /* Floating glass tech tiles that frame the headline. Offsets are kept inside
    the outer ~10% of the viewport on each side so they can never collide with
@@ -133,7 +124,6 @@ export default function Hero({
   return (
     <section
       id="top"
-      data-hero
       className="relative isolate flex min-h-[100svh] items-start overflow-hidden bg-background pt-32 pb-20"
     >
       {/* Deep-space ambience: soft purple/blue glow clouds + tiled starfield. */}
@@ -142,15 +132,6 @@ export default function Hero({
         <div className="absolute -left-40 top-[18%] h-[560px] w-[560px] rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.24),transparent_72%)] blur-3xl" />
         <div className="absolute -right-32 top-[26%] h-[600px] w-[600px] rounded-full bg-[radial-gradient(closest-side,rgba(59,130,246,0.22),transparent_72%)] blur-3xl" />
         <div className="starfield" />
-      </div>
-
-      {/* Animated building skyline pinned to the bottom (z-0 — above the
-          section bg, below text). Drawn at its 1611px design width and
-          clipped at the sides on smaller screens so it never squashes. */}
-      <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 h-[220px] w-[1611px] -translate-x-1/2 sm:h-[300px] lg:h-[346px]">
-          <ParticleBand />
-        </div>
       </div>
 
       {/* Floating 3D glass tech tiles — decorative only, xl and up. */}

@@ -5,7 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { site } from "@/data/site";
 import WelcomeIntro from "@/components/WelcomeIntro";
-import AuraCursorMount from "@/components/AuraCursorMount";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -112,7 +111,6 @@ export default function RootLayout({
           Skip to content
         </a>
         <WelcomeIntro />
-        <AuraCursorMount />
         {children}
         <Analytics />
         <SpeedInsights />
